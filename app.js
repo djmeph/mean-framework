@@ -9,6 +9,9 @@ var fs = require('fs');
 var path = require('path');
 var mongoose = require('mongoose');
 
+//routes
+var link = require('./routes/link');
+
 mongoose.Promise = global.Promise;
 
 if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") mongoose.set('debug', true);
@@ -43,16 +46,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.get('*', function (req, res) {
-  res.status(404).type('txt').send('Not found');
-});
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
+app.use(link);
 
 // error handlers
 
