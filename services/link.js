@@ -15,7 +15,7 @@ function get (slug) {
         Link
         .findOne({ slug: slug })
         .exec(function (err, link) {
-            if (link) deferred.resolve(link.url);
+            if (link) deferred.resolve(link);
             else deferred.reject(err);
         });
 

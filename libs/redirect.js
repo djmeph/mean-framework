@@ -1,4 +1,5 @@
 var Link = require('../services/link');
+var Hit = require('../services/hit');
 
 module.exports = function (req, res, next) {
 
@@ -6,9 +7,17 @@ module.exports = function (req, res, next) {
 
     Link.get(req.params.slug.toLowerCase()).then(success, fail);
 
-    function success (url) {
-      req.data = { url: url };
+    function success (result) {
+
+      Hit.post({
+        address: req.connection.remoteAddress,
+        useragent: req.headers['user-agent'],
+        Link: result._id
+      });
+
+      req.data = { url: result.url };
       return next();
+
     }
 
     function fail () {
