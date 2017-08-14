@@ -1,3 +1,9 @@
-package-lock.json
 node_modules/
+_src/build/
+package-lock.json
 config.json
+nodemon.json
+www/dashboard/index.html
+www/dashboard/js/app.min.js
+www/dashboard/css/app.css
+www/dashboard/css/app.css.map
