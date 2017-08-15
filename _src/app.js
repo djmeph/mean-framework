@@ -17,6 +17,12 @@
       templateUrl: 'views/home.html',
       data: { activeTab: 'home' },
       controller: 'Home.IndexController as vm'
+    })
+    .state('signup', {
+      url: '/signup',
+      templateUrl: 'views/signup.html',
+      data: { activeTab: 'signup' },
+      controller: 'Signup.IndexController as vm'
     });
 
   }

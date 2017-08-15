@@ -1,0 +1,13 @@
+<div ng-show="vm.flash.error" class="alert alert-danger" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  <span class="sr-only">Failed:</span>
+  <span class="msg">{{ vm.flash.error.msg }}</span>
+  <span ng-if="vm.flash.error.link"> [&nbsp;<a href="{{ vm.flash.error.link.url }}">{{ vm.flash.error.link.label }}</a>&nbsp;]</span>
+</div>
+
+<div ng-show="vm.flash.success" class="alert alert-success" role="alert">
+  <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span>
+  <span class="sr-only">Success:</span>
+  <span class="msg">{{ vm.flash.success.msg }}</span>
+  <span ng-if="vm.flash.success.link"> [&nbsp;<a href="{{ vm.flash.success.link.url }}">{{ vm.flash.success.link.label }}</a>&nbsp;]</span>
+</div>

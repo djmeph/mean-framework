@@ -11,6 +11,7 @@ var mongoose = require('mongoose');
 
 //routes
 var link = require('./routes/link');
+var api = require('./routes/api');
 
 mongoose.Promise = global.Promise;
 
@@ -38,6 +39,12 @@ db.once('open', function () {
 });
 
 var app = express();
+var session = require('express-session')({
+  secret: config.secret,
+  resave: true,
+  saveUninitialized: true,
+  cookie: config.cookie
+});
 
 if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") app.use(logger('dev'));
 
@@ -45,8 +52,9 @@ app.use(express.static(path.join(__dirname, 'www')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(session);
 
-
+app.use('/api', api);
 app.use(link);
 
 // error handlers

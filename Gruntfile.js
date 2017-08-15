@@ -5,8 +5,8 @@ module.exports = function(grunt) {
    var concatFist = [
     '_src/app.js',
     '_src/controllers/*.js',
-    //'_src/services/*.js',
-    //'_src/directives/*.js',
+    '_src/services/*.js',
+    '_src/directives/*.js'
     //'_src/filters/*.js'
   ];
 

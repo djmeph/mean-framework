@@ -1,0 +1,30 @@
+<div id="container" ng-controller="Signup.IndexController as vm">
+    <div class="small-form margin-top margin-bottom">
+
+        <ul class="nav nav-tabs margin-bottom">
+          <li><a href="#!/login">Log in</a></li>
+          <li class="active"><a href="#/signup">Sign up</a></li>
+        </ul>
+
+        <form name="formSignup" ng-submit="formSignup.$valid && vm.save()">
+
+            <label title="Username must be between 3 and 16 characters in length and can only contain alphanumerical characters with no spaces">Username</label>
+            <input ng-model="vm.username" type="text" class="form-control margin-bottom" ng-minlength="3" ng-maxlength="16" ng-pattern="vm.regex" autocomplete="off" required autofocus>
+
+            <label title="Valid email address required">Email address</label>
+            <input ng-model="vm.email" type="email" class="form-control margin-bottom" autocomplete="off" required>
+
+            <label title="Password must be between 3 and 256 characters">Password</label>
+            <input ng-model="vm.password" type="password" class="form-control margin-bottom" ng-minlength="8" ng-maxlength="512" required>
+
+            <label title="Passwords must match">Verify password</label>
+            <input ng-model="vm.verify" type="password" class="form-control margin-bottom" ng-match="vm.password" required>
+
+            <button type="submit" class="btn btn-lg btn-primary btn-block" ng-disabled="!formSignup.$valid">Sign up</button>
+
+        </form>
+
+        <flash></flash>
+
+    </div>
+</div>
