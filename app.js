@@ -58,7 +58,7 @@ function go () {
     store: new MongoStore({ mongooseConnection: mongoose.connection })
   }));
 
-  app.use('/api', expressJwt({ secret: config.secret }).unless({ path: ['/api/token'] }));
+  app.use('/api', expressJwt({ secret: config.secret }).unless({ path: ['/api/token', '/api/auth', 'api/register'] }));
   app.use('/api', api);
   app.use(link);
 

@@ -27,7 +27,7 @@
             function success (res) {
                 $window.jwtToken = res.token;
                 $http.defaults.headers.common['Authorization'] = 'Bearer ' + $window.jwtToken;
-                //$state.go("account-new");
+                $state.go('home');
                 console.log(res);
             }
 

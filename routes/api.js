@@ -23,9 +23,16 @@ router.post('/auth', [bodyParser.json(), authPost], function (req, res) {
   else res.status(200).json({ token: req.session.token, user: req.data.user });
 });
 
+router.delete('/token', function (req, res) {
+  try {
+    delete req.session.token;
+    return res.sendStatus(200);
+  } catch (err) { res.status(400).send(err.message); }
+});
+
 /* Account */
 
-router.post('/user', [bodyParser.json(), userPost], function (req, res) {
+router.post('/register', [bodyParser.json(), userPost], function (req, res) {
   if (req.data.err) res.status(500).send(req.data.msg); 
   else res.status(200).json({ token: req.session.token, username: req.data.username });
 });
