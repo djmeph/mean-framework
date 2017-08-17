@@ -2,15 +2,37 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 
+/* General */
+var tokenGet = require('../libs/token-get');
+var authPost = require('../libs/auth-post');
+
 /* Account */
 var userPost = require('../libs/user-post');
+var userGet = require('../libs/user-get');
 
+
+/* General */
+
+router.get('/token', [bodyParser.json(), tokenGet], function (req, res) {
+  if (req.data.err) res.status(400).send(req.data.msg);
+  else res.status(200).json(req.data.token);
+});
+
+router.post('/auth', [bodyParser.json(), authPost], function (req, res) {
+  if (req.data.err) res.status(401).send(req.data.msg); 
+  else res.status(200).json({ token: req.session.token, user: req.data.user });
+});
 
 /* Account */
 
 router.post('/user', [bodyParser.json(), userPost], function (req, res) {
   if (req.data.err) res.status(500).send(req.data.msg); 
   else res.status(200).json({ token: req.session.token, username: req.data.username });
+});
+
+router.get('/user', [bodyParser.json(), userGet], function (req, res) {
+  if (req.data.err) res.status(500).send(req.data.msg);
+  else res.status(200).json(req.data.result);
 });
 
 module.exports = router;

@@ -1,0 +1,32 @@
+<div id="container">
+
+  <div class="small-form margin-top margin-bottom">
+
+    <ul class="nav nav-tabs margin-bottom">
+      <li class="active"><a href="#!/login">Log in</a></li>
+      <li><a href="#!/signup">Sign up</a></li>
+    </ul>
+
+    <form name="loginForm" ng-submit="loginForm.$valid && vm.checkLogin()" novalidate>
+
+        <label>Username or email address</label>
+        <input ng-model="vm.username" type="text" class="form-control margin-bottom" autocomplete="off" autofocus required>
+
+        <label>Password</label>
+        <input ng-model="vm.password" type="password" class="form-control margin-bottom" required>
+
+        <input type="checkbox" ng-model="vm.remember">&nbsp;
+        <label class="margin-bottom">Remember me</label>
+
+        <button type="submit" class="btn btn-lg btn-success btn-block margin-bottom" ng-disabled="!loginForm.$valid">Sign in</button>
+
+        <a ng-show="vm.redirect" href="#!/recover-password?redirect={{ vm.redirect }}">I forgot my password</a>
+        <a ng-hide="vm.redirect" href="#!/recover-password">I forgot my password</a>
+
+    </form>
+
+    <flash></flash>
+
+  </div>
+
+</div>

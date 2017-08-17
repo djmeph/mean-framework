@@ -6,6 +6,8 @@ var config = require('../config.json');
 var service = {};
 
 service.post = post;
+service.getByID = getByID;
+service.auth = auth;
 
 module.exports = service;
 
@@ -44,7 +46,7 @@ function post (data) {
       var newUser = new User(payload);
       newUser.save(function (err, doc) {
         if (err) deferred.reject(err);
-        deferred.resolve({ token: jwt.sign({ sub: doc._id }, config.secret), user: doc });
+        else deferred.resolve({ token: jwt.sign({ _id: doc._id }, config.secret), user: doc });
       });
 
     }
@@ -52,6 +54,54 @@ function post (data) {
   } catch (err) {
     if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err);
     deferred.reject(err.message);
+  }
+
+  return deferred.promise;
+
+}
+
+function getByID (_id) {
+
+    var deferred = Q.defer();
+
+    try {
+
+        User
+        .findOne({ _id: _id })
+        .select('-password')
+        .exec(function (err, user) {
+
+            if (err) deferred.reject(err);
+            else if (user) deferred.resolve(user);
+            else deferred.reject();
+
+        });
+
+    } catch (err) {
+        if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err);
+        deferred.reject(err.message);
+    }
+
+    return deferred.promise;
+
+}
+
+function auth (username, password) {
+
+  var deferred = Q.defer();
+
+  try {
+
+    User
+    .getAuthenticated(username.toLowerCase(), password, function (err, user, reason) {
+      if (err) deferred.reject(err);
+      else if (user) deferred.resolve({ token: jwt.sign({ _id: user._id }, config.secret), user: user });
+      else deferred.reject({ message: "User not found" });
+    });
+
+  } catch (err) {
+      if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err);
+      deferred.reject(err.message);
   }
 
   return deferred.promise;
