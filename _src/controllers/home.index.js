@@ -5,27 +5,60 @@
   .module('app')
   .controller('Home.IndexController', Controller);
 
-  function Controller($state, User) {
+  function Controller($state, $location, User, Link) {
     var vm = this;
+    var prefix = null;
 
-    vm.message = "Hello World!";
+    vm.url = null;
+    vm.links = [];
+
+    vm.submit = submit;
 
     initController();
 
     function initController () {
 
-      User.AuthCheck().then(success, fail);
+      getPrefix();
 
-      function success (result) {
-        console.log({success:result});
+      User.AuthCheck().then(successAuth, failAuth);
+
+      function successAuth (result) {
+        Link.GetLinks().then(successLinks, fail);
       }
 
-      function fail (err) {
+      function failAuth (err) {
         $state.go('login');
       }
 
+      function getPrefix () {
+        var host = $location.host();
+        var protocol = $location.protocol();
+        var port = $location.port();
+        var prefix = protocol + "://" + host;
+        if (port != 80) prefix += ":" + port;
+        prefix += "/";
+        vm.prefix = prefix;
+      }
+
     }
-    
+
+    function submit () {
+      Link.Post(vm.url).then(successPost, fail);
+    }
+
+    function successPost () {
+      vm.url = null;
+      Link.GetLinks().then(successLinks, fail);
+    }
+
+    function successLinks (links) {
+      vm.links = links;
+    }
+
+    function fail (err) {
+      Link.GetLinks().then(successLinks, fail);
+    }
+
   }
 
 })();

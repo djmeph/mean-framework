@@ -1,13 +1,13 @@
-var User = require('../services/user');
+var Link = require('../services/link');
 
 module.exports = function (req, res, next) {
 
   try {
 
-    User.getByID(req.user._id).then(success, fail);
+    Link.post(req.user._id, req.body.url).then(success, fail);
 
-    function success (user) {
-      req.data = { err: false, result: user };
+    function success (link) {
+      req.data = { err: false };
       return next();
     }
 

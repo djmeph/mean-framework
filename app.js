@@ -58,7 +58,7 @@ function go () {
     store: new MongoStore({ mongooseConnection: mongoose.connection })
   }));
 
-  app.use('/api', expressJwt({ secret: config.secret }).unless({ path: ['/api/token', '/api/auth', 'api/register'] }));
+  app.use('/api', expressJwt({ secret: config.secret }).unless({ path: ['/api/token', '/api/auth', '/api/register'] }));
   app.use('/api', api);
   app.use(link);
 
@@ -69,7 +69,7 @@ function go () {
   if (app.get('env') === 'dev') {
     app.use(function (err, req, res, next) {
       res.status(err.status || 500);
-      res.render('error', {
+      res.status(500).json({
         message: err.message,
         error: err
       });
@@ -80,7 +80,7 @@ function go () {
   // no stacktraces leaked to user
   app.use(function (err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {
+    res.status(500).json({
       message: err.message,
       error: {}
     });

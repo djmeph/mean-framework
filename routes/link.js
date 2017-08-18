@@ -14,10 +14,13 @@ router.get('/:slug', redirect, function (req, res) {
 /* Forward root to djmeph.net  */
 router.get('/', function (req, res) {
 
+  var referrer = req.header('Referer');
+
   Hit.post({
     address: req.connection.remoteAddress,
     useragent: req.headers['user-agent'],
-    Link: config.djmeph_id
+    Link: config.djmeph_id,
+    referrer: referrer
   });
 
   res.redirect(302, 'http://djmeph.net/');

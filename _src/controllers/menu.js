@@ -19,8 +19,8 @@
                 return User.user;
             }, function (newVal, oldVal) {
                 if (typeof newVal !== 'undefined') {
-                    menu.user = User.user.data;
-                    menu.username = menu.user ? menu.user.display : null;
+                    menu.user = User.user;
+                    menu.username = menu.user.display;
                 }
             });
 

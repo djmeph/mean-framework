@@ -9,10 +9,13 @@ module.exports = function (req, res, next) {
 
     function success (result) {
 
+      var referrer = req.header('Referer');
+
       Hit.post({
         address: req.connection.remoteAddress,
         useragent: req.headers['user-agent'],
-        Link: result._id
+        "Link": result._id,
+        referrer: referrer
       });
 
       req.data = { url: result.url };

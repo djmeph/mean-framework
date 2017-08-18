@@ -57,8 +57,8 @@
         }
 
         function successAuthCheck (user) {
-            setUser(user);
-            return user;
+            setUser(user.data);
+            return user.data;
         }
 
     }
