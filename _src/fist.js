@@ -1,5 +1,5 @@
 window.globals = {
 
-  domain: "https://naked.bike/dashboard"
+  domain: "https://naked.bike"
 
 };
