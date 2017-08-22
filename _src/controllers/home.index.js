@@ -35,7 +35,7 @@
         var protocol = $location.protocol();
         var port = $location.port();
         var prefix = protocol + "://" + host;
-        if (port != 80) prefix += ":" + port;
+        if (protocol == 'http' && port != 80 || protocol == 'https' && port != 443) prefix += ":" + port;
         prefix += "/";
         vm.prefix = prefix;
       }
