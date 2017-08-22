@@ -11,6 +11,7 @@
 
     vm.url = null;
     vm.links = [];
+    vm.regex = /^https?:\/\//;
 
     vm.submit = submit;
 

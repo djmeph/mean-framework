@@ -7,7 +7,17 @@ module.exports = function (req, res, next) {
     Link.getLinks(req.user._id).then(success, fail);
 
     function success (links) {
-      req.data = { err: false, result: links };
+      var payload = [];
+      for (var index = 0; index < links.length; index++) {
+        payload[index] = {
+          _id: links[index]._id,
+          url: links[index].url,
+          slug: links[index].slug,
+          created: links[index].created,
+          Hits: links[index].Hits.length
+        }
+      }
+      req.data = { err: false, result: payload };
       return next();
     }
 

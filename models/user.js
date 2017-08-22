@@ -10,7 +10,6 @@ var UserSchema = new mongoose.Schema({
     loginAttempts: { type: Number, required: true, default: 0 },
     lockUntil: { type: Number, required: false },
     recover: { type: String, required: false, index: true },
-    //Profile: { type: mongoose.Schema.ObjectId, ref: 'Profile' }
 });
 
 

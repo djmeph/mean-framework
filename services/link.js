@@ -38,7 +38,10 @@ function getLinks (_id) {
 
         Link
         .find({ User: _id })
-        .populate('Hits')
+        .populate({
+            path: 'Hits',
+            select: '-_id'
+        })
         .sort("-created")        
         .exec(function (err, links) {
             if (links) deferred.resolve(links);
