@@ -8,17 +8,17 @@
 
         <form name="formSignup" ng-submit="formSignup.$valid && vm.save()">
 
-            <label title="Username must be between 3 and 16 characters in length and can only contain alphanumerical characters with no spaces">Username</label>
-            <input ng-model="vm.username" type="text" class="form-control margin-bottom" ng-minlength="3" ng-maxlength="16" ng-pattern="vm.regex" autocomplete="off" required autofocus>
+            <label ng-class="{ red : !formSignup.username.$valid }">Username<span ng-hide="formSignup.username.$valid"> must be between 3 and 16 characters in length and can only contain alphanumerical characters with no spaces.</span> <span ng-show="formSignup.username.$valid" class="glyphicon glyphicon-ok green"></span></label>
+            <input ng-model="vm.username" name="username" type="text" class="form-control margin-bottom" ng-minlength="3" ng-maxlength="16" ng-pattern="vm.regex" autocomplete="off" required autofocus>
 
-            <label title="Valid email address required">Email address</label>
-            <input ng-model="vm.email" type="email" class="form-control margin-bottom" autocomplete="off" required>
+            <label ng-class="{ red : !formSignup.email.$valid }">Email address<span ng-hide="formSignup.email.$valid"> must be valid.</span> <span ng-show="formSignup.email.$valid" class="glyphicon glyphicon-ok green"></span></label>
+            <input ng-model="vm.email" name="email" type="email" class="form-control margin-bottom" autocomplete="off" required>
 
-            <label title="Password must be between 3 and 256 characters">Password</label>
-            <input ng-model="vm.password" type="password" class="form-control margin-bottom" ng-minlength="8" ng-maxlength="512" required>
+            <label ng-class="{ red : !formSignup.password.$valid }">Password<span ng-hide="formSignup.password.$valid"> must be between 3 and 256 characters.</span> <span ng-show="formSignup.password.$valid" class="glyphicon glyphicon-ok green"></span></label>
+            <input ng-model="vm.password" name="password" type="password" class="form-control margin-bottom" ng-minlength="8" ng-maxlength="512" required>
 
-            <label title="Passwords must match">Verify password</label>
-            <input ng-model="vm.verify" type="password" class="form-control margin-bottom" ng-match="vm.password" required>
+            <label ng-class="{ red : !formSignup.verify.$valid }">Verify password<span ng-hide="formSignup.verify.$valid">. Passwords must match.</span> <span ng-show="formSignup.verify.$valid" class="glyphicon glyphicon-ok green"></span></label>
+            <input ng-model="vm.verify" name="verify" type="password" class="form-control margin-bottom" ng-match="vm.password" required>
 
             <button type="submit" class="btn btn-lg btn-primary btn-block" ng-disabled="!formSignup.$valid">Sign up</button>
 
