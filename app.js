@@ -9,6 +9,7 @@ var path = require('path');
 var expressSession = require('express-session');
 var MongoStore = require('connect-mongo')(expressSession);
 var expressJwt = require('express-jwt');
+var forceDomain = require('forcedomain');
 var mongoose = require('mongoose');
 
 //routes
@@ -46,6 +47,11 @@ function go () {
   var app = express();
 
   if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") app.use(logger('dev'));
+
+if (process.env.NODE_ENV != "dev") app.use(forceDomain({
+  hostname: config.cookie.domain,
+  protocol: 'https'
+}));
 
   app.use(express.static(path.join(__dirname, 'www')));
   app.use(bodyParser.urlencoded({ extended: true }));
