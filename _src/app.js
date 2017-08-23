@@ -35,6 +35,12 @@
       templateUrl: 'views/user-settings.html',
       data: { activeTab: 'user-settings' },
       controller: 'UserSettings.IndexController as vm'
+    })
+    .state('change-password', {
+      url: '/change-password',
+      templateUrl: 'views/change-password.html',
+      data: { activeTab: 'change-password' },
+      controller: 'ChangePassword.IndexController as vm'
     });
 
   }

@@ -34,8 +34,8 @@
                 User.setUsername(result.display);
             }
 
-            function failSave (res) {
-                vm.flash = { error: { msg: res } };
+            function failSave (err) {
+                vm.flash = { error: { msg: err } };
                 User.AuthCheck().then(successAuth, failAuth);
             }
         }

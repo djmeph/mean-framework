@@ -20,6 +20,7 @@
         service.Authenticate = Authenticate;
         service.Logout = Logout;
         service.Put = Put;
+        service.ChangePassword = ChangePassword;
 
         return service;
 
@@ -55,6 +56,10 @@
 
         function Put (data) {
             return $http.put(domain + '/api/user', data).then(handleSuccess, handleError);
+        }
+
+        function ChangePassword (oldp, newp) {
+            return $http.put(domain + '/api/password', { old: oldp, new: newp }).then(handleSuccess, handleError);
         }
 
         // private functions

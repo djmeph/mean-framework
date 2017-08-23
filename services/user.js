@@ -2,13 +2,16 @@ var User = require('../models/user');
 var Q = require('q');
 var moment = require('moment');
 var jwt = require('jsonwebtoken');
+var bcrypt = require('bcrypt-nodejs');
 var config = require('../config.json');
 var service = {};
+var SALT_WORK_FACTOR = 11;
 
 service.post = post;
 service.getByID = getByID;
 service.auth = auth;
 service.put = put;
+service.setPassword = setPassword;
 
 module.exports = service;
 
@@ -32,7 +35,7 @@ function post (data) {
 
         deferred.reject({ message: msg });
 
-      } 
+      }
 
       else createUser();
 
@@ -127,6 +130,34 @@ function put (_id, data) {
         else deferred.resolve(payload);
       }
     );
+
+  } catch (err) {
+      if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err);
+      deferred.reject(err.message);
+  }
+
+  return deferred.promise;
+
+}
+
+function setPassword (_id, password) {
+
+  var deferred = Q.defer();
+
+  try {
+
+    bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+      bcrypt.hash(password, salt, null, function (err, hash) {
+        User.update(
+          { _id: _id },
+          { $set: { password: hash } },
+          function (err) {
+            if (err) deferred.reject(err);
+            else deferred.resolve();
+          }
+        );
+      });
+    });
 
   } catch (err) {
       if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err);
