@@ -19,15 +19,6 @@
 
         function initController () {
             User.AuthCheck().then(successAuth, failAuth);
-
-            function successAuth (result) {
-                vm.username = result.display;
-                vm.email = result.email;
-            }
-
-            function failAuth (err) {
-                $state.go('login');
-            }
         }
 
         function save () {
@@ -48,6 +39,15 @@
                 User.AuthCheck().then(successAuth, failAuth);
             }
         }
+
+        function successAuth (result) {
+            vm.username = result.display;
+            vm.email = result.email;
+        }
+
+        function failAuth (err) {
+            $state.go('login');
+        }        
 
     }
 

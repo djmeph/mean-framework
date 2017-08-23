@@ -123,7 +123,7 @@ function put (_id, data) {
       { _id: _id },
       { $set: payload },
       function (err) {
-        if (err) deferred.reject(err.message);
+        if (err) deferred.reject(err);
         else deferred.resolve(payload);
       }
     );
