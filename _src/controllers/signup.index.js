@@ -28,7 +28,6 @@
                 $window.jwtToken = res.token;
                 $http.defaults.headers.common['Authorization'] = 'Bearer ' + $window.jwtToken;
                 $state.go('home');
-                console.log(res);
             }
 
             function fail (res) {

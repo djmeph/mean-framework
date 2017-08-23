@@ -8,6 +8,7 @@ var service = {};
 service.post = post;
 service.getByID = getByID;
 service.auth = auth;
+service.put = put;
 
 module.exports = service;
 
@@ -98,6 +99,34 @@ function auth (username, password) {
       else if (user) deferred.resolve({ token: jwt.sign({ _id: user._id }, config.secret), user: user });
       else deferred.reject({ message: "User not found" });
     });
+
+  } catch (err) {
+      if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err);
+      deferred.reject(err.message);
+  }
+
+  return deferred.promise;
+
+}
+
+function put (_id, data) {
+
+  var deferred = Q.defer();
+
+  try {
+
+    var payload = data;
+    payload.display = data.username;
+    payload.username = data.username.toLowerCase();
+
+    User.update(
+      { _id: _id },
+      { $set: payload },
+      function (err) {
+        if (err) deferred.reject(err.message);
+        else deferred.resolve(payload);
+      }
+    );
 
   } catch (err) {
       if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err);

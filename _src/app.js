@@ -29,6 +29,12 @@
       templateUrl: 'views/login.html',
       data: { activeTab: 'login' },
       controller: 'Login.IndexController as vm'
+    })
+    .state('user-settings', {
+      url: '/user-settings',
+      templateUrl: 'views/user-settings.html',
+      data: { activeTab: 'user-settings' },
+      controller: 'UserSettings.IndexController as vm'
     });
 
   }

@@ -8,6 +8,7 @@
     function Controller ($scope, $rootScope, $state, $window, $http, $localStorage, User) {
         var menu = this;
 
+        menu.user = {};
         menu.expandHamburger = expandHamburger;
         menu.logout = logout;
 
@@ -18,10 +19,7 @@
             $scope.$watch(function () {
                 return User.user;
             }, function (newVal, oldVal) {
-                if (typeof newVal !== 'undefined') {
-                    menu.user = User.user;
-                    menu.username = menu.user.display;
-                }
+                if (typeof newVal !== 'undefined') menu.user = newVal;
             });
 
             $scope.$watch(function () {

@@ -6,9 +6,10 @@ var bodyParser = require('body-parser');
 var tokenGet = require('../libs/token-get');
 var authPost = require('../libs/auth-post');
 
-/* Account */
+/* User */
 var userPost = require('../libs/user-post');
 var userGet = require('../libs/user-get');
+var userPut = require('../libs/user-put');
 
 /* Link */
 var linksGet = require('../libs/links-get');
@@ -23,7 +24,7 @@ router.get('/token', [bodyParser.json(), tokenGet], function (req, res) {
 });
 
 router.post('/auth', [bodyParser.json(), authPost], function (req, res) {
-  if (req.data.err) res.status(401).send(req.data.msg); 
+  if (req.data.err) res.status(401).send(req.data.msg);
   else res.status(200).json({ token: req.session.token, user: req.data.user });
 });
 
@@ -34,14 +35,19 @@ router.delete('/token', function (req, res) {
   } catch (err) { res.status(400).send(err.message); }
 });
 
-/* Account */
+/* User */
 
 router.post('/register', [bodyParser.json(), userPost], function (req, res) {
-  if (req.data.err) res.status(500).send(req.data.msg); 
+  if (req.data.err) res.status(500).send(req.data.msg);
   else res.status(200).json({ token: req.session.token, username: req.data.username });
 });
 
 router.get('/user', [bodyParser.json(), userGet], function (req, res) {
+  if (req.data.err) res.status(500).send(req.data.msg);
+  else res.status(200).json(req.data.result);
+});
+
+router.put('/user', [bodyParser.json(), userPut], function (req, res) {
   if (req.data.err) res.status(500).send(req.data.msg);
   else res.status(200).json(req.data.result);
 });
@@ -54,7 +60,7 @@ router.get('/links', [bodyParser.json(), linksGet], function (req, res) {
 });
 
 router.post('/link', [bodyParser.json(), linkPost], function (req, res) {
-  if (req.data.err) res.status(500).send(req.data.msg); 
+  if (req.data.err) res.status(500).send(req.data.msg);
   else res.status(200).send();
 });
 

@@ -12,14 +12,25 @@
 
         service.user = {};
         service.setUser = setUser;
+        service.setUsername = setUsername;
 
         service.Create = Create;
         service.AuthCheck = AuthCheck;
         service.GetCurrent = GetCurrent;
         service.Authenticate = Authenticate;
         service.Logout = Logout;
+        service.Put = Put;
 
         return service;
+
+        function setUser (user) {
+            service.user = user;
+        }
+
+        function setUsername (username) {
+            service.user.display = username;
+            service.user.username = username.toLowerCase();
+        }
 
         function Create (data) {
             return $http.post(domain + '/api/register', data).then(handleSuccess, handleError);
@@ -42,8 +53,8 @@
             return $http.delete(domain + '/api/token');
         }
 
-        function setUser (user) {
-            service.user = user;
+        function Put (data) {
+            return $http.put(domain + '/api/user', data).then(handleSuccess, handleError);
         }
 
         // private functions

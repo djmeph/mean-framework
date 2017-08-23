@@ -1,9 +1,9 @@
 <ul class="nav navbar-nav pull-right" ng-controller="MenuController as menu">
 
-  <li ng-show="menu.user._id" ng-class="{ active: activeTab == 'account-settings' }">
+  <li ng-show="menu.user._id" ng-class="{ active: activeTab == 'user-settings' }">
     <a href="#!/user-settings">
       <span class="glyphicon glyphicon-user"></span>
-      {{ menu.username }}
+      {{ menu.user.display }}
     </a>
   </li>
 

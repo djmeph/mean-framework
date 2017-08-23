@@ -1,0 +1,24 @@
+<div id="container">
+    <div class="small-form margin-top margin-bottom">
+
+        <ul class="nav nav-tabs margin-bottom">
+          <li class="active"><a href="#!/user-settings">User Settings</a></li>
+          <li><a href="#/change-password">Change Password</a></li>
+        </ul>
+
+        <form name="formUserSettings" ng-submit="formUserSettings.$valid && vm.save()">
+
+            <label ng-class="{ red : !formUserSettings.username.$valid }">Username<span ng-hide="formUserSettings.username.$valid"> must be between 3 and 16 characters in length and can only contain alphanumerical characters with no spaces.</span> <span ng-show="formUserSettings.username.$valid" class="glyphicon glyphicon-ok green"></span></label>
+            <input ng-model="vm.username" name="username" type="text" class="form-control margin-bottom" ng-minlength="3" ng-maxlength="16" ng-pattern="vm.regex" autocomplete="off" required autofocus>
+
+            <label ng-class="{ red : !formUserSettings.email.$valid }">Email address<span ng-hide="formUserSettings.email.$valid"> must be valid.</span> <span ng-show="formUserSettings.email.$valid" class="glyphicon glyphicon-ok green"></span></label>
+            <input ng-model="vm.email" name="email" type="email" class="form-control margin-bottom" autocomplete="off" required>
+
+            <button type="submit" class="btn btn-lg btn-primary btn-block" ng-disabled="!formUserSettings.$valid"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;Save</button>
+
+        </form>
+
+        <flash></flash>
+
+    </div>
+</div>
