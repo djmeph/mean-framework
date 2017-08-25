@@ -12,6 +12,7 @@ service.getByID = getByID;
 service.auth = auth;
 service.put = put;
 service.setPassword = setPassword;
+service.getRecover = getRecover;
 
 module.exports = service;
 
@@ -158,6 +159,35 @@ function setPassword (_id, password) {
         );
       });
     });
+
+  } catch (err) {
+      if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err);
+      deferred.reject(err.message);
+  }
+
+  return deferred.promise;
+
+}
+
+function getRecover (email) {
+
+  var deferred = Q.defer();
+
+  try {
+
+    var code = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+      return v.toString(16);
+    });
+
+    User.findOneAndUpdate(
+      { email: email.toLowerCase() },
+      { $set: { recover: code } },
+      function (err, user) {
+        if (err || user === null) deferred.reject();
+        else deferred.resolve({ email: user.email, code: code });
+      }
+    );    
 
   } catch (err) {
       if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err);

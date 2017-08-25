@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var tokenGet = require('../libs/token-get');
 var authPost = require('../libs/auth-post');
 var passwordPut = require('../libs/password-put');
+var recoverGet = require('../libs/recover-get');
 
 /* User */
 var userPost = require('../libs/user-post');
@@ -32,6 +33,11 @@ router.post('/auth', [bodyParser.json(), authPost], function (req, res) {
 router.put('/password', [bodyParser.json(), passwordPut], function (req, res) {
   if (req.data.err) res.status(500).send(req.data.msg);
   else res.status(200).send(req.data.msg);
+});
+
+router.get('/recover/:email', [bodyParser.json(), recoverGet], function (req, res) {
+  if (req.data.err) res.status(400).send(req.data.msg);
+  else res.status(200).send();
 });
 
 router.delete('/token', function (req, res) {

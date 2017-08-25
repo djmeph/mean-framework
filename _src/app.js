@@ -41,6 +41,12 @@
       templateUrl: 'views/change-password.html',
       data: { activeTab: 'change-password' },
       controller: 'ChangePassword.IndexController as vm'
+    })
+    .state('recover-password', {
+      url: '/recover-password',
+      templateUrl: 'views/recover-password.html',
+      data: { activeTab: 'recover-password' },
+      controller: 'RecoverPassword.IndexController as vm'
     });
 
   }
