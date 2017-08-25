@@ -5,7 +5,7 @@
         .module('app')
         .controller('RecoverPassword.IndexController', Controller);
 
-    function Controller($window, $http, $state, $localStorage, $scope, $rootScope, User) {
+    function Controller(User) {
         var vm = this;
 
         vm.flash = {};

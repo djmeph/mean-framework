@@ -5,7 +5,7 @@
     .module('app')
     .controller('ChangePassword.IndexController', Controller);
 
-    function Controller($window, $http, $state, User) {
+    function Controller($state, User) {
         var vm = this;
 
         vm.password = null;

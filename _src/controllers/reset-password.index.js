@@ -5,7 +5,7 @@
         .module('app')
         .controller('ResetPassword.IndexController', Controller);
 
-    function Controller($state, $scope, $rootScope, $stateParams, User) {
+    function Controller($state, $stateParams, User) {
         var vm = this;
 
         vm.flash = {};

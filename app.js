@@ -1,9 +1,10 @@
+var config = require('./config.json');
 var express = require("express");
 var http = require('http');
 var https = require('https');
 var bodyParser = require('body-parser');
 var logger = process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose" ? require('morgan') : null;
-var debug = require('debug')('naked-bike:server');
+var debug = require('debug')(config.mongo.db + ':server');
 var fs = require('fs');
 var path = require('path');
 var expressSession = require('express-session');
@@ -13,14 +14,12 @@ var forceDomain = require('forcedomain');
 var mongoose = require('mongoose');
 
 //routes
-var link = require('./routes/link');
 var api = require('./routes/api');
 
 mongoose.Promise = global.Promise;
 
 if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") mongoose.set('debug', true);
 
-var config = require('./config.json');
 var port = normalizePort(process.env.PORT || '80');
 var ssl_port = normalizePort(process.env.SSL_PORT || '443');
 
@@ -48,10 +47,10 @@ function go () {
 
   if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") app.use(logger('dev'));
 
-if (process.env.NODE_ENV != "dev") app.use(forceDomain({
-  hostname: config.cookie.domain,
-  protocol: 'https'
-}));
+  if (process.env.NODE_ENV != "dev") app.use(forceDomain({
+    hostname: config.cookie.domain,
+    protocol: 'https'
+  }));
 
   app.use(express.static(path.join(__dirname, 'www')));
   app.use(bodyParser.urlencoded({ extended: true }));
@@ -67,7 +66,6 @@ if (process.env.NODE_ENV != "dev") app.use(forceDomain({
   var regex = /\/api\/recover.*/;
   app.use('/api', expressJwt({ secret: config.secret }).unless({ path: ['/api/token', '/api/auth', '/api/register', '/api/reset', regex] }));
   app.use('/api', api);
-  app.use(link);
 
   // error handlers
 

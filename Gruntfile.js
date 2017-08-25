@@ -23,7 +23,7 @@ module.exports = function(grunt) {
       fist: {
         options: {
           data: {
-            title: 'Short URL Generator Dashboard',
+            title: 'MEAN Framework',
             built: new Date().getTime() }
         },
         files: {

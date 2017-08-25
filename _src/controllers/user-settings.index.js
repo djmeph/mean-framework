@@ -5,7 +5,7 @@
     .module('app')
     .controller('UserSettings.IndexController', Controller);
 
-    function Controller($window, $http, $state, User) {
+    function Controller($state, User) {
         var vm = this;
 
         vm.username = null;
