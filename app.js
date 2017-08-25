@@ -65,7 +65,7 @@ if (process.env.NODE_ENV != "dev") app.use(forceDomain({
   }));
 
   var regex = /\/api\/recover.*/;
-  app.use('/api', expressJwt({ secret: config.secret }).unless({ path: ['/api/token', '/api/auth', '/api/register', regex] }));
+  app.use('/api', expressJwt({ secret: config.secret }).unless({ path: ['/api/token', '/api/auth', '/api/register', '/api/reset', regex] }));
   app.use('/api', api);
   app.use(link);
 

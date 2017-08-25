@@ -13,6 +13,7 @@ service.auth = auth;
 service.put = put;
 service.setPassword = setPassword;
 service.getRecover = getRecover;
+service.reset = reset;
 
 module.exports = service;
 
@@ -187,7 +188,7 @@ function getRecover (email) {
         if (err || user === null) deferred.reject();
         else deferred.resolve({ email: user.email, code: code });
       }
-    );    
+    );
 
   } catch (err) {
       if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err);
@@ -195,5 +196,34 @@ function getRecover (email) {
   }
 
   return deferred.promise;
+
+}
+
+function reset (email, code, password) {
+
+    var deferred = Q.defer();
+
+    try {
+
+        bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+            bcrypt.hash(password, salt, null, function (err, hash) {
+                User.findOneAndUpdate(
+                    { email: email, recover: code },
+                    { $set: { password: hash } },
+                    function (err, doc) {
+                        if (err) deferred.reject(err);
+                        else if (doc === null) deferred.reject({ message: 'Invalid credentials' });
+                        else deferred.resolve();
+                    }
+                );
+            });
+        });
+
+    } catch (err) {
+        if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err);
+        deferred.reject(err.message);
+    }
+
+    return deferred.promise;
 
 }

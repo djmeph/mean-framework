@@ -13,7 +13,7 @@ module.exports = function (req, res, next) {
       var protocol = req.connection.encrypted ? "https://" : "http://";
       var text = 'Password Recovery.\n\n';
       text += 'Click this link to reset your password:\n\n';
-      text += protocol + req.headers.host + '/#!/reset-password/' + encodeURIComponent(result.email) + "/" + result.code;
+      text += protocol + req.headers.host + '/dashboard/#!/reset-password/' + encodeURIComponent(result.email) + "/" + result.code;
       var subject = config.app_name + ' - Password Recovery';
 
       Email.send(text, result.email, subject).then(successSend, fail);

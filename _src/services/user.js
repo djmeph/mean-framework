@@ -22,6 +22,7 @@
         service.Put = Put;
         service.ChangePassword = ChangePassword;
         service.GetRecover = GetRecover;
+        service.Reset = Reset;
 
         return service;
 
@@ -65,6 +66,10 @@
 
         function GetRecover (email) {
             return $http.get(domain + '/api/recover/' + encodeURIComponent(email) + '?' + $.param({ _: moment().unix() })).then(handleSuccess, handleError);
+        }
+
+        function Reset (data) {
+            return $http.post(domain + '/api/reset', data).then(handleSuccess, handleError);
         }
 
         // private functions
