@@ -4,20 +4,16 @@ html, body {
   font-family: @default-font;
 }
 
-#content {
+.ng-invalid {
+  &:focus {
+    border-color: @red;
+  }      
+}
 
-  .ng-dirty {
-
-    &.ng-invalid {
-      border-color: @red;
-    }
-
-    &.ng-valid {
-      border-color: @green;
-    }
-
+.ng-valid {
+  &:focus {
+    border-color: @green;
   }
-
 }
 
 .green {
