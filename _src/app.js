@@ -57,18 +57,19 @@
 
   }
 
-  function run ($http, $rootScope, $window) {
+  function run ($http, $rootScope, $window, $transitions) {
 
     $rootScope.globals = $window.globals;
 
     if ($window.jwtToken) $http.defaults.headers.common['Authorization'] = 'Bearer ' + $window.jwtToken;
 
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+    $transitions.onStart({}, function (transition) {
       $rootScope.hamburger = false;
     });
 
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-      $rootScope.activeTab = toState.data.activeTab;
+    $transitions.onSuccess({}, function (transition) {
+      var toData = transition.$to();
+      $rootScope.activeTab = toData.data.activeTab;
     });
 
   }

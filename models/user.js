@@ -1,6 +1,9 @@
+if (process.env.NODE_ENV == 'dev') var config = require('../config.json'); else var config = {};
+
+const SALT_WORK_FACTOR = normalize(process.env.NODE_ENV == 'dev' ? config.SALT_WORK_FACTOR : process.env.SALT_WORK_FACTOR);
+
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
-var SALT_WORK_FACTOR = 11;
 
 var UserSchema = new mongoose.Schema({
     username: { type: String, required: true, index: { unique: true } },
@@ -100,3 +103,12 @@ UserSchema.statics.getAuthenticated = function (username, password, cb) {
 };
 
 module.exports = mongoose.model('User', UserSchema);
+
+
+// Private functions 
+function normalize (val) {
+  var payload = parseInt(val, 10);
+  if (isNaN(payload)) return val;
+  if (payload >= 0) return payload;
+  return false;
+}

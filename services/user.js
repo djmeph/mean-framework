@@ -1,11 +1,14 @@
+if (process.env.NODE_ENV == 'dev') var config = require('../config.json'); else var config = {};
+
+const SECRET = process.env.NODE_ENV == 'dev' ? config.SECRET : process.env.SECRET;
+const SALT_WORK_FACTOR = normalize(process.env.NODE_ENV == 'dev' ? config.SALT_WORK_FACTOR : process.env.SALT_WORK_FACTOR);
+
 var User = require('../models/user');
 var Q = require('q');
 var moment = require('moment');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcrypt-nodejs');
-var config = require('../config.json');
 var service = {};
-var SALT_WORK_FACTOR = 11;
 
 service.post = post;
 service.getByID = getByID;
@@ -52,7 +55,7 @@ function post (data) {
       var newUser = new User(payload);
       newUser.save(function (err, doc) {
         if (err) deferred.reject(err);
-        else deferred.resolve({ token: jwt.sign({ _id: doc._id }, config.secret), user: doc });
+        else deferred.resolve({ token: jwt.sign({ _id: doc._id }, SECRET), user: doc });
       });
 
     }
@@ -101,7 +104,7 @@ function auth (username, password) {
     User
     .getAuthenticated(username.toLowerCase(), password, function (err, user, reason) {
       if (err) deferred.reject(err);
-      else if (user) deferred.resolve({ token: jwt.sign({ _id: user._id }, config.secret), user: user });
+      else if (user) deferred.resolve({ token: jwt.sign({ _id: user._id }, SECRET), user: user });
       else deferred.reject({ message: "User not found" });
     });
 
@@ -226,4 +229,12 @@ function reset (email, code, password) {
 
     return deferred.promise;
 
+}
+
+// Private functions 
+function normalize (val) {
+  var payload = parseInt(val, 10);
+  if (isNaN(payload)) return val;
+  if (payload >= 0) return payload;
+  return false;
 }

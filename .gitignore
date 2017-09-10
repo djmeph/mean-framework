@@ -1,10 +1,11 @@
 node_modules/
+www/dashboard/bower_components
 _src/build/
 package-lock.json
 config.json
 nodemon.json
 www/dashboard/index.html
-www/dashboard/js/app.min.js
-www/dashboard/css/app.css
-www/dashboard/css/app.css.map
+www/dashboard/app.min.js
+www/dashboard/app.css
+www/dashboard/app.css.map
 sessions/

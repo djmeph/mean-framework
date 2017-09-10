@@ -1,6 +1,9 @@
+if (process.env.NODE_ENV == 'dev') var config = require('../config.json'); else var config = {};
+
+const APP_NAME = process.env.NODE_ENV == 'dev' ? config.APP_NAME : process.env.APP_NAME;
+
 var User = require('../services/user');
 var Email = require('../services/email');
-var config = require('../config.json');
 
 module.exports = function (req, res, next) {
 
@@ -14,7 +17,7 @@ module.exports = function (req, res, next) {
       var text = 'Password Recovery.\n\n';
       text += 'Click this link to reset your password:\n\n';
       text += protocol + req.headers.host + '/dashboard/#!/reset-password/' + encodeURIComponent(result.email) + "/" + result.code;
-      var subject = config.app_name + ' - Password Recovery';
+      var subject = APP_NAME + ' - Password Recovery';
 
       Email.send(text, result.email, subject).then(successSend, fail);
 

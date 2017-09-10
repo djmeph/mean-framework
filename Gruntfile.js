@@ -39,7 +39,7 @@ module.exports = function(grunt) {
       },
       debug: {
         options: {},
-        files: { 'www/dashboard/js/app.min.js': concatDebug }
+        files: { 'www/dashboard/app.min.js': concatDebug }
       }
     },
 
@@ -47,7 +47,7 @@ module.exports = function(grunt) {
       fist: {
         options: { mangle: false },
         files: {
-          'www/dashboard/js/app.min.js': '_src/build/app.js'
+          'www/dashboard/app.min.js': '_src/build/app.js'
         }
       }
     },
@@ -60,7 +60,7 @@ module.exports = function(grunt) {
           sourceMap: false
         },
         files: {
-          "www/dashboard/css/app.css": "less/app.less"
+          "www/dashboard/app.css": "less/app.less"
         }
       },
       debug: {
@@ -70,10 +70,10 @@ module.exports = function(grunt) {
           sourceMap: true,
           outputSourceFiles: true,
           sourceMapURL: 'app.css.map',
-          sourceMapFilename: 'www/dashboard/css/app.css.map'
+          sourceMapFilename: 'www/dashboard/app.css.map'
         },
         files: {
-          "www/dashboard/css/app.css": "less/app.less"
+          "www/dashboard/app.css": "less/app.less"
         }
       }
     }
