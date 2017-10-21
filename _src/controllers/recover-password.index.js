@@ -1,38 +1,38 @@
 (function () {
-    'use strict';
+  'use strict';
 
-    angular
-        .module('app')
-        .controller('RecoverPassword.IndexController', Controller);
+  angular
+  .module('app')
+  .controller('RecoverPassword.IndexController', Controller);
 
-    function Controller(User) {
-        var vm = this;
+  function Controller(User) {
+    var vm = this;
 
-        vm.flash = {};
-        vm.email = null;
+    vm.flash = {};
+    vm.email = null;
 
-        vm.getRecover = getRecover;
+    vm.getRecover = getRecover;
 
-        function getRecover () {
+    function getRecover () {
 
-            User.GetRecover(vm.email).then(success, fail);
+      User.GetRecover(vm.email).then(success, fail);
 
-            vm.email = null;
+      vm.email = null;
 
-            function success () {
+      function success () {
 
-                vm.flash = { success: { msg: "Recovery email sent" } };
+        vm.flash = { success: { msg: "Recovery email sent" } };
 
-            }
+      }
 
-            function fail (res) {
+      function fail (res) {
 
-                vm.flash = { error: { msg: res } };
+        vm.flash = { error: { msg: res } };
 
-            }
-
-        }
+      }
 
     }
+
+  }
 
 })();

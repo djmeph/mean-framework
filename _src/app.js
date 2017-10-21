@@ -3,9 +3,9 @@
   'use strict';
 
   angular
-    .module('app', ['ui.router', 'ngStorage'])
-    .config(config)
-    .run(run);
+  .module('app', ['ui.router', 'ngStorage'])
+  .config(config)
+  .run(run);
 
   function config ($stateProvider, $urlRouterProvider) {
 

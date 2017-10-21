@@ -15,17 +15,17 @@ html(lang='en')
     link(href='app.css?_=#{built}', rel='stylesheet')
   body
     main
-        nav#nav.navbar.navbar-inverse.navbar-fixed-top(ng-controller="MenuController as menu")
-            .navbar-header
-                button.navbar-toggle.collapsed(ng-click="menu.expandHamburger()")
-                    span.sr-only Toggle navigation
-                    span.icon-bar
-                    span.icon-bar
-                    span.icon-bar
-                a.navbar-brand(href="#/", ng-class="{ active: activeTab === 'home' }") #{title}
-            #navbar.navbar-collapse.collapse(ng-class="{ in : menu.hamburger }")
-                user-menu
-        #content(ui-view)
+      nav#nav.navbar.navbar-inverse.navbar-fixed-top(ng-controller="MenuController as menu")
+        .navbar-header
+          button.navbar-toggle.collapsed(ng-click="menu.expandHamburger()")
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href="#/", ng-class="{ active: activeTab === 'home' }") #{title}
+        #navbar.navbar-collapse.collapse(ng-class="{ in : menu.hamburger }")
+          user-menu
+      #content(ui-view)
     script(src='bower_components/jquery/dist/jquery.min.js')
     script(src='bower_components/moment/moment.js')
     script(src='bower_components/angular/angular.min.js')

@@ -2,8 +2,8 @@
   'use strict';
 
   angular
-    .module('app')
-    .directive('userMenu', Directive);
+  .module('app')
+  .directive('userMenu', Directive);
 
   function Directive () {
 

@@ -1,40 +1,40 @@
 (function () {
-    'use strict';
+  'use strict';
 
-    angular
-        .module('app')
-        .controller('ResetPassword.IndexController', Controller);
+  angular
+  .module('app')
+  .controller('ResetPassword.IndexController', Controller);
 
-    function Controller($state, $stateParams, User) {
-        var vm = this;
+  function Controller($state, $stateParams, User) {
+    var vm = this;
 
-        vm.flash = {};
-        vm.password = null;
-        vm.verify = null;
-        vm.email = $stateParams.email;
-        vm.code = $stateParams.code;
+    vm.flash = {};
+    vm.password = null;
+    vm.verify = null;
+    vm.email = $stateParams.email;
+    vm.code = $stateParams.code;
 
-        vm.reset = reset;
+    vm.reset = reset;
 
-        function reset () {
+    function reset () {
 
-            var payload = { email: vm.email, code: vm.code, password: vm.password };
+      var payload = { email: vm.email, code: vm.code, password: vm.password };
 
-            User.Reset(payload).then(success, fail);
+      User.Reset(payload).then(success, fail);
 
-            vm.password = null;
-            vm.verify = null;
+      vm.password = null;
+      vm.verify = null;
 
-            function success () {
-                $state.go('login');
-            }
+      function success () {
+        $state.go('login');
+      }
 
-            function fail (res) {
-                vm.flash = { error: { msg: res } };
-            }
-
-        }
+      function fail (res) {
+        vm.flash = { error: { msg: res } };
+      }
 
     }
+
+  }
 
 })();
