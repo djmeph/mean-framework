@@ -1,7 +1,9 @@
 var Link = require('../services/link');
 var Hit = require('../services/hit');
 
-module.exports = function (req, res, next) {
+module.exports = Module;
+
+function Module (req, res, next) {
 
   try {
 
@@ -18,20 +20,16 @@ module.exports = function (req, res, next) {
         referrer: referrer
       });
 
-      req.data = { url: result.url };
+      req.data = { status: 200, url: result.url };
       return next();
 
     }
 
-    function fail () {
-      req.data = { err: true, msg: "link not found" };
-      return next();
-    }
+  } catch (err) { fail(err); }
 
-  } catch (err) {
-    if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err)
-    req.data = { err: true, msg: err.message };
+  function fail (err) {
+    req.data = { status: 400, result: err.message };
     return next();
   }
 
-};
+}

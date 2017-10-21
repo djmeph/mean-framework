@@ -18,7 +18,7 @@
         initController();
 
         function initController () {
-            User.AuthCheck().then(successAuth, failAuth);
+            User.GetCurrent().then(successAuth, failAuth);
         }
 
         function save () {
@@ -29,14 +29,11 @@
 
             function successSave (result) {
                 vm.flash = { success: { msg: "Saved @" + moment().format('hh:mm:ss a') } };
-                vm.username = result.display;
-                vm.email = result.email;
-                User.setUsername(result.display);
+                User.setUsername(vm.username);
             }
 
             function failSave (err) {
                 vm.flash = { error: { msg: err } };
-                User.AuthCheck().then(successAuth, failAuth);
             }
         }
 
@@ -47,7 +44,7 @@
 
         function failAuth (err) {
             $state.go('login');
-        }        
+        }
 
     }
 

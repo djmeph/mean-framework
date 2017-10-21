@@ -14,7 +14,7 @@
 
     function initController () {
 
-      User.AuthCheck().then(successAuth, failAuth);
+      User.GetCurrent().then(successAuth, failAuth);
 
       function successAuth (result) {
         vm.message = 'Hello ' + result.display + '!';

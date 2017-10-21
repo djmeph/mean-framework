@@ -1,6 +1,8 @@
 var User = require('../services/user');
 
-module.exports = function (req, res, next) {
+module.exports = Module;
+
+function Module (req, res, next) {
 
   try {
 
@@ -8,19 +10,18 @@ module.exports = function (req, res, next) {
 
     function success (result) {
       req.session.token = result.token;
-      req.data = { err: false, username: result.user.display }
+      var payload = result.user;
+      delete payload.password;
+      if (payload.recover) delete payload.recover;
+      req.data = { status: 200, result: { user: payload, token: result.token } };
       return next();
     }
 
-    function fail (err) {
-      req.data = { err: true, msg: err.message };
-      return next();
-    }
+  } catch (err) { fail(err); }
 
-  } catch (err) {
-    if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err)
-    req.data = { err: true, msg: err.message };
+  function fail (err) {
+    req.data = { status: 400, result: err.message };
     return next();
   }
 
-};
+}

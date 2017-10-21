@@ -17,53 +17,35 @@ var userPut = require('../libs/user-put');
 
 /* General */
 
-router.get('/token', [bodyParser.json(), tokenGet], function (req, res) {
-  if (req.data.err) res.status(400).send(req.data.msg);
-  else res.status(200).json(req.data.token);
-});
+router.get('/token', [bodyParser.json(), tokenGet], process);
 
-router.post('/auth', [bodyParser.json(), authPost], function (req, res) {
-  if (req.data.err) res.status(401).send(req.data.msg);
-  else res.status(200).json({ token: req.session.token, user: req.data.user });
-});
+router.post('/auth', [bodyParser.json(), authPost], process);
 
-router.put('/password', [bodyParser.json(), passwordPut], function (req, res) {
-  if (req.data.err) res.status(500).send(req.data.msg);
-  else res.status(200).send(req.data.msg);
-});
+router.put('/password', [bodyParser.json(), passwordPut], process);
 
-router.get('/recover/:email', [bodyParser.json(), recoverGet], function (req, res) {
-  if (req.data.err) res.status(500).send(req.data.msg);
-  else res.status(200).send();
-});
+router.get('/recover/:email', [bodyParser.json(), recoverGet], process);
 
-router.post('/reset', [bodyParser.json(), resetPost], function (req, res) {
-  if (req.data.err) res.status(500).send(req.data.msg);
-  else res.status(200).send();
-});
+router.post('/reset', [bodyParser.json(), resetPost], process);
 
-router.delete('/token', function (req, res) {
-  try {
-    delete req.session.token;
-    return res.sendStatus(200);
-  } catch (err) { res.status(400).send(err.message); }
-});
+router.delete('/token', deleteToken);
 
 /* User */
 
-router.post('/register', [bodyParser.json(), userPost], function (req, res) {
-  if (req.data.err) res.status(500).send(req.data.msg);
-  else res.status(200).json({ token: req.session.token, username: req.data.username });
-});
+router.post('/register', [bodyParser.json(), userPost], process);
 
-router.get('/user', [bodyParser.json(), userGet], function (req, res) {
-  if (req.data.err) res.status(500).send(req.data.msg);
-  else res.status(200).json(req.data.result);
-});
+router.get('/user', [bodyParser.json(), userGet], process);
 
-router.put('/user', [bodyParser.json(), userPut], function (req, res) {
-  if (req.data.err) res.status(500).send(req.data.msg);
-  else res.status(200).json(req.data.result);
-});
+router.put('/user', [bodyParser.json(), userPut], process);
 
 module.exports = router;
+
+function process (req, res) {
+  res.status(req.data.status).json(req.data.result);
+}
+
+function deleteToken (req, res) {
+  try {
+    delete req.session.token;
+    return res.send(200);
+  } catch (err) { res.status(400).send(err.message); }
+}

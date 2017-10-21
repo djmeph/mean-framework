@@ -1,41 +1,38 @@
 (function () {
-    'use strict';
+  'use strict';
 
-    angular
-    .module('app')
-    .controller('Signup.IndexController', Controller);
+  angular
+  .module('app')
+  .controller('Signup.IndexController', Controller);
 
-    function Controller($window, $http, $state, User) {
-        var vm = this;
+  function Controller($window, $http, $state, User) {
+    var vm = this;
 
-        vm.username = null;
-        vm.email = null;
-        vm.password = null;
-        vm.verify = false;
-        vm.flash = {};
-        vm.regex = /^[a-zA-Z0-9_]+$/;
+    vm.username = null;
+    vm.email = null;
+    vm.password = null;
+    vm.verify = false;
+    vm.flash = {};
+    vm.regex = /^[a-zA-Z0-9_]+$/;
 
-        vm.save = save;
+    vm.save = save;
 
-        function save () {
-            User.Create({
-                username: vm.username,
-                email: vm.email,
-                password: vm.password
-            }).then(success, fail);
+    function save () {
+      User.Create({
+        username: vm.username,
+        email: vm.email,
+        password: vm.password
+      }).then(success, fail);
 
-            function success (res) {
-                $window.jwtToken = res.token;
-                $http.defaults.headers.common['Authorization'] = 'Bearer ' + $window.jwtToken;
-                $state.go('home');
-            }
+      function success (res) {
+        $state.go('home');
+      }
 
-            function fail (res) {
-                console.log(res)
-                vm.flash = { error: { msg: res } };
-            }
-        }
-
+      function fail (res) {
+        vm.flash = { error: { msg: res } };
+      }
     }
+
+  }
 
 })();

@@ -1,6 +1,8 @@
 var User = require('../services/user');
 
-module.exports = function (req, res, next) {
+module.exports = Module;
+
+function Module (req, res, next) {
 
   try {
 
@@ -15,8 +17,7 @@ module.exports = function (req, res, next) {
         User.setPassword(user._id, req.body.new).then(successPassword, fail);
 
         function successPassword () {
-          req.data = { err: false, msg: 'Password successfully changed' }
-          console.log(req.data)
+          req.data = { status: 200, result: 'Password successfully changed' };
           return next();
         }
 
@@ -24,15 +25,11 @@ module.exports = function (req, res, next) {
 
     }
 
-    function fail (err) {
-      req.data = { err: true, msg: err.message };
-      return next();
-    }
+  } catch (err) { fail(err); }
 
-  } catch (err) {
-    if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err)
-    req.data = { err: true, msg: err.message };
+  function fail (err) {
+    req.data = { status: 400, result: err.message };
     return next();
   }
 
-};
+}

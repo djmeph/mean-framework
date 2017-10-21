@@ -55,7 +55,7 @@ function post (data) {
       var newUser = new User(payload);
       newUser.save(function (err, doc) {
         if (err) deferred.reject(err);
-        else deferred.resolve({ token: jwt.sign({ _id: doc._id }, SECRET), user: doc });
+        else deferred.resolve({ token: jwt.sign({ _id: doc._id }, SECRET), user: doc.toObject() });
       });
 
     }
@@ -104,7 +104,7 @@ function auth (username, password) {
     User
     .getAuthenticated(username.toLowerCase(), password, function (err, user, reason) {
       if (err) deferred.reject(err);
-      else if (user) deferred.resolve({ token: jwt.sign({ _id: user._id }, SECRET), user: user });
+      else if (user) deferred.resolve({ token: jwt.sign({ _id: user._id }, SECRET), user: user.toObject() });
       else deferred.reject({ message: "User not found" });
     });
 
@@ -231,7 +231,7 @@ function reset (email, code, password) {
 
 }
 
-// Private functions 
+// Private functions
 function normalize (val) {
   var payload = parseInt(val, 10);
   if (isNaN(payload)) return val;

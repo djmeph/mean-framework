@@ -15,7 +15,6 @@
     service.setUsername = setUsername;
 
     service.Create = Create;
-    service.AuthCheck = AuthCheck;
     service.GetCurrent = GetCurrent;
     service.Authenticate = Authenticate;
     service.Logout = Logout;
@@ -32,25 +31,19 @@
 
     function setUsername (username) {
       service.user.display = username;
-      service.user.username = username.toLowerCase();
     }
 
     function Create (data) {
-      return $http.post(domain + '/api/register', data).then(handleSuccess, handleError);
-    }
-
-    function AuthCheck () {
-      if ($http.defaults.headers.common['Authorization']) return $http.get(domain + '/api/user?' + $.param({ _: moment().unix() })).then(successAuthCheck, handleError);
-      else return $q.reject();
+      return $http.post(domain + '/api/register', data).then(successAuthCheck, handleError);
     }
 
     function GetCurrent () {
-      if ($http.defaults.headers.common['Authorization']) return $http.get(domain + '/api/user?' + $.param({ _: moment().unix() })).then(successAuthCheck, handleError);
+      if ($http.defaults.headers.common['Authorization']) return $http.get(domain + '/api/user?' + $.param({ _: moment().unix() })).then(successUser, handleError);
       else return $q.reject();
     }
 
     function Authenticate (credentials) {
-      return $http.post(domain + '/api/auth', credentials).then(handleSuccess, handleError);
+      return $http.post(domain + '/api/auth', credentials).then(successAuthCheck, handleError);
     }
 
     function Logout () {
@@ -83,10 +76,15 @@
       return $q.reject(res.data);
     }
 
-    function successAuthCheck (user) {
-      setUser(user.data);
-      $http.defaults.headers.common['Authorization'] = 'Bearer ' + user.data.token;
-      return user.data;
+    function successUser (res) {
+      setUser(res.data);
+      return res.data;
+    }
+
+    function successAuthCheck (res) {
+      setUser(res.data.user);
+      $http.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
+      return res.data;
     }
 
   }
