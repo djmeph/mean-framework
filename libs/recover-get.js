@@ -9,6 +9,13 @@ function Module (req, res, next) {
   const GMAIL_PASSWORD = req.app.get('GMAIL_PASSWORD');
   const NOREPLY_EMAIL = req.app.get('NOREPLY_EMAIL');
 
+  console.log({
+    APP_NAME: APP_NAME,
+    GMAIL_ADDRESS: GMAIL_ADDRESS,
+    GMAIL_PASSWORD: GMAIL_PASSWORD,
+    NOREPLY_EMAIL: NOREPLY_EMAIL
+  });
+
   try {
 
     User.getRecover(req.params.email).then(successRecover, fail);
@@ -18,7 +25,7 @@ function Module (req, res, next) {
       var protocol = req.connection.encrypted ? "https://" : "http://";
       var text = 'Password Recovery.\n\n';
       text += 'Click this link to reset your password:\n\n';
-      text += protocol + req.headers.host + '/dashboard/#!/reset-password/' + encodeURIComponent(result.email) + "/" + result.code;
+      text += protocol + req.headers.host + '/#!/reset-password/' + encodeURIComponent(result.email) + "/" + result.code;
       var subject = APP_NAME + ' - Password Recovery';
 
       Email.send(text, result.email, subject, GMAIL_ADDRESS, GMAIL_PASSWORD, NOREPLY_EMAIL).then(successSend, fail);
@@ -33,7 +40,7 @@ function Module (req, res, next) {
   } catch (err) { fail(err); }
 
   function fail (err) {
-    req.data = { status: 400, result: err.message };
+    req.data = { status: 500, result: err };
     return next();
   }
 

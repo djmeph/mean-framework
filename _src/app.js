@@ -59,8 +59,6 @@
 
   function run ($http, $rootScope, $window, $transitions) {
 
-    $rootScope.globals = $window.globals;
-
     if ($window.jwtToken) $http.defaults.headers.common['Authorization'] = 'Bearer ' + $window.jwtToken;
 
     $transitions.onStart({}, function (transition) {
@@ -84,7 +82,7 @@
 
     }
 
-    $.get(window.globals.domain + '/api/token').then(success, fail);
+    $.get('/api/token').then(success, fail);
 
     function success (token) {
 

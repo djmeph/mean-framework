@@ -128,7 +128,7 @@ function put (_id, data) {
 
 }
 
-function setPassword (_id, password) {
+function setPassword (_id, password, SALT_WORK_FACTOR) {
 
   var deferred = Q.defer();
 
@@ -180,7 +180,7 @@ function getRecover (email) {
 
 }
 
-function reset (email, code, password) {
+function reset (email, code, password, SALT_WORK_FACTOR) {
 
     var deferred = Q.defer();
 

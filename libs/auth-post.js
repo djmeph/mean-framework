@@ -18,7 +18,7 @@ function Module (req, res, next) {
   } catch (err) { fail(err); }
 
   function fail (err) {
-    req.data = { status: 400, result: err.message };
+    req.data = { status: 500, result: err };
     return next();
   }
 

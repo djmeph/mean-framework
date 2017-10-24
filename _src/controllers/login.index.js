@@ -26,8 +26,8 @@
         $state.go("home");
       }
 
-      function fail (res) {
-        vm.flash.error = { msg: res };
+      function fail (err) {
+        vm.flash.error = { msg: err.message };
       }
 
     }

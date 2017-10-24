@@ -14,14 +14,14 @@ function Module (req, res, next) {
       req.data = { status: 200, result: req.session.token };
       return next();
     } else {
-      req.data = { status: 400, result: "Invalid token" };
+      req.data = { status: 500, result: "Invalid token" };
       return next();
     }
 
   } catch (err) { fail(err); }
 
   function fail (err) {
-    req.data = { status: 400, result: err.message };
+    req.data = { status: 500, result: err };
     return next();
   }
 

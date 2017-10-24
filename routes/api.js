@@ -47,5 +47,5 @@ function deleteToken (req, res) {
   try {
     delete req.session.token;
     return res.send(200);
-  } catch (err) { res.status(400).send(err.message); }
+  } catch (err) { res.status(500).send(err.message); }
 }

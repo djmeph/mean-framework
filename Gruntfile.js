@@ -22,7 +22,7 @@ module.exports = function(grunt) {
             built: new Date().getTime() }
         },
         files: {
-          'www/dashboard/index.html': 'views/dashboard.jade',
+          'www/index.html': 'views.jade',
         }
       }
     },
@@ -34,7 +34,7 @@ module.exports = function(grunt) {
       },
       debug: {
         options: {},
-        files: { 'www/dashboard/app.min.js': concatFiles }
+        files: { 'www/app.min.js': concatFiles }
       }
     },
 
@@ -42,7 +42,7 @@ module.exports = function(grunt) {
       dist: {
         options: { mangle: false },
         files: {
-          'www/dashboard/app.min.js': '_src/build/app.js'
+          'www/app.min.js': '_src/build/app.js'
         }
       }
     },
@@ -55,7 +55,7 @@ module.exports = function(grunt) {
           sourceMap: false
         },
         files: {
-          "www/dashboard/app.css": "less/app.less"
+          "www/app.css": "less/app.less"
         }
       },
       debug: {
@@ -65,10 +65,10 @@ module.exports = function(grunt) {
           sourceMap: true,
           outputSourceFiles: true,
           sourceMapURL: 'app.css.map',
-          sourceMapFilename: 'www/dashboard/app.css.map'
+          sourceMapFilename: 'www/app.css.map'
         },
         files: {
-          "www/dashboard/app.css": "less/app.less"
+          "www/app.css": "less/app.less"
         }
       }
     }

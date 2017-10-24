@@ -33,7 +33,7 @@
       }
 
       function failSave (err) {
-        vm.flash = { error: { msg: err } };
+        vm.flash = { error: { msg: err.message } };
       }
     }
 

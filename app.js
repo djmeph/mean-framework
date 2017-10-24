@@ -11,6 +11,9 @@ const SECRET = DEV ? config.SECRET : process.env.SECRET;
 const COOKIE_DOMAIN = DEV ? config.COOKIE_DOMAIN : process.env.COOKIE_DOMAIN;
 const COOKIE_MAXAGE = DEV ? config.COOKIE_MAXAGE : process.env.COOKIE_MAXAGE;
 const APP_NAME = DEV ? config.APP_NAME : process.env.APP_NAME;
+const GMAIL_ADDRESS = DEV ? config.GMAIL_ADDRESS : process.env.GMAIL_ADDRESS;
+const GMAIL_PASSWORD = DEV ? config.GMAIL_PASSWORD : process.env.GMAIL_PASSWORD;
+const NOREPLY_EMAIL = DEV ? config.NOREPLY_EMAIL : process.env.NOREPLY_EMAIL;
 
 var express = require("express");
 var http = require('http');
@@ -48,6 +51,9 @@ function go (db) {
   app.set('COOKIE_DOMAIN', COOKIE_DOMAIN);
   app.set('COOKIE_MAXAGE', normalize(COOKIE_MAXAGE));
   app.set('APP_NAME', APP_NAME);
+  app.set('GMAIL_ADDRESS', GMAIL_ADDRESS);
+  app.set('GMAIL_PASSWORD', GMAIL_PASSWORD);
+  app.set('NOREPLY_EMAIL', NOREPLY_EMAIL);
 
   if (DEV || VERBOSE) app.use(logger('dev'));
 
@@ -57,14 +63,12 @@ function go (db) {
     saveUninitialized: true,
     cookie: {
       domain: COOKIE_DOMAIN,
-      maxAge: COOKIE_MAXAGE,
+      maxAge: normalize(COOKIE_MAXAGE),
     },
     store: new MongoStore({ mongooseConnection: mongoose.connection })
   });
 
-  app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(bodyParser.text());
   app.use(bodyParser.json({ type: 'application/json'}));
   app.use(express.static(path.join(__dirname, 'www')));
   app.use(session);

@@ -3,6 +3,7 @@ var User = require('../services/user');
 module.exports = Module;
 
 function Module (req, res, next) {
+  const SALT_WORK_FACTOR = req.app.get('SALT_WORK_FACTOR');
 
   try {
 
@@ -16,7 +17,7 @@ function Module (req, res, next) {
   } catch (err) { fail(err); }
 
   function fail (err) {
-    req.data = { status: 400, result: err.message };
+    req.data = { status: 500, result: err };
     return next();
   }
 

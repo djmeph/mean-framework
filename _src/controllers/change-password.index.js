@@ -35,7 +35,7 @@
         vm.password = null;
         vm.new = null;
         vm.verify = null;
-        vm.flash = { error: { msg: err } };
+        vm.flash = { error: { msg: err.message } };
       }
     }
 

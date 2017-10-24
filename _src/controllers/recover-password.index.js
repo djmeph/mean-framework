@@ -25,9 +25,9 @@
 
       }
 
-      function fail (res) {
+      function fail (err) {
 
-        vm.flash = { error: { msg: res } };
+        vm.flash = { error: { msg: err.message } };
 
       }
 
