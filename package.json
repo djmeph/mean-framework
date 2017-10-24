@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app",
-    "debug": "nodemon app",
-    "postinstall": "bower install && grunt fist"
+    "postinstall": "bower install && grunt dist"
   },
   "author": "",
   "license": "ISC",

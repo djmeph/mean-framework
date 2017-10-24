@@ -1,8 +1,3 @@
-if (process.env.NODE_ENV == 'dev') var config = require('../config.json'); else var config = {};
-
-const SECRET = process.env.NODE_ENV == 'dev' ? config.SECRET : process.env.SECRET;
-const SALT_WORK_FACTOR = normalize(process.env.NODE_ENV == 'dev' ? config.SALT_WORK_FACTOR : process.env.SALT_WORK_FACTOR);
-
 var User = require('../models/user');
 var Q = require('q');
 var moment = require('moment');
@@ -20,7 +15,7 @@ service.reset = reset;
 
 module.exports = service;
 
-function post (data) {
+function post (data, SECRET) {
 
   var deferred = Q.defer();
 
@@ -60,10 +55,7 @@ function post (data) {
 
     }
 
-  } catch (err) {
-    if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err);
-    deferred.reject(err.message);
-  }
+  } catch (err) { deferred.reject(err); }
 
   return deferred.promise;
 
@@ -82,20 +74,17 @@ function getByID (_id) {
 
             if (err) deferred.reject(err);
             else if (user) deferred.resolve(user);
-            else deferred.reject();
+            else deferred.reject({ message: "User not found" });
 
         });
 
-    } catch (err) {
-        if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err);
-        deferred.reject(err.message);
-    }
+    } catch (err) { deferred.reject(err); }
 
     return deferred.promise;
 
 }
 
-function auth (username, password) {
+function auth (username, password, SECRET) {
 
   var deferred = Q.defer();
 
@@ -108,10 +97,7 @@ function auth (username, password) {
       else deferred.reject({ message: "User not found" });
     });
 
-  } catch (err) {
-      if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err);
-      deferred.reject(err.message);
-  }
+  } catch (err) { deferred.reject(err); }
 
   return deferred.promise;
 
@@ -136,10 +122,7 @@ function put (_id, data) {
       }
     );
 
-  } catch (err) {
-      if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err);
-      deferred.reject(err.message);
-  }
+  } catch (err) { deferred.reject(err); }
 
   return deferred.promise;
 
@@ -164,10 +147,7 @@ function setPassword (_id, password) {
       });
     });
 
-  } catch (err) {
-      if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err);
-      deferred.reject(err.message);
-  }
+  } catch (err) { deferred.reject(err); }
 
   return deferred.promise;
 
@@ -188,15 +168,13 @@ function getRecover (email) {
       { email: email.toLowerCase() },
       { $set: { recover: code } },
       function (err, user) {
-        if (err || user === null) deferred.reject();
-        else deferred.resolve({ email: user.email, code: code });
+        if (err) deferred.reject(err);
+        else if (user) deferred.resolve({ email: user.email, code: code });
+        else deferred.reject({ message: "User not found" });
       }
     );
 
-  } catch (err) {
-      if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err);
-      deferred.reject(err.message);
-  }
+  } catch (err) { deferred.reject(err); }
 
   return deferred.promise;
 
@@ -222,19 +200,8 @@ function reset (email, code, password) {
             });
         });
 
-    } catch (err) {
-        if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err);
-        deferred.reject(err.message);
-    }
+    } catch (err) { deferred.reject(err); }
 
     return deferred.promise;
 
-}
-
-// Private functions
-function normalize (val) {
-  var payload = parseInt(val, 10);
-  if (isNaN(payload)) return val;
-  if (payload >= 0) return payload;
-  return false;
 }

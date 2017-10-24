@@ -2,7 +2,7 @@ module.exports = function(grunt) {
 
   'use strict';
 
-   var concatFist = [
+   var concatFiles = [
     '_src/app.js',
     '_src/controllers/*.js',
     '_src/services/*.js',
@@ -10,17 +10,12 @@ module.exports = function(grunt) {
     //'_src/filters/*.js'
   ];
 
-  var concatDebug = concatFist.slice(0);
-
-  concatFist.push('_src/fist.js');
-  concatDebug.push('_src/debug.js');
-
   grunt.initConfig({
 
     pkg: grunt.file.readJSON('package.json'),
 
     jade: {
-      fist: {
+      dist: {
         options: {
           data: {
             title: 'MEAN Framework',
@@ -33,18 +28,18 @@ module.exports = function(grunt) {
     },
 
     concat: {
-      fist: {
+      dist: {
         options: {},
-        files: { '_src/build/app.js': concatFist }
+        files: { '_src/build/app.js': concatFiles }
       },
       debug: {
         options: {},
-        files: { 'www/dashboard/app.min.js': concatDebug }
+        files: { 'www/dashboard/app.min.js': concatFiles }
       }
     },
 
     uglify: {
-      fist: {
+      dist: {
         options: { mangle: false },
         files: {
           'www/dashboard/app.min.js': '_src/build/app.js'
@@ -53,7 +48,7 @@ module.exports = function(grunt) {
     },
 
     less: {
-      fist: {
+      dist: {
         options: {
           compress: true,
           yuicompress: true,
@@ -85,7 +80,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-less');
 
-  grunt.registerTask('fist', ['jade:fist', 'concat:fist', 'uglify:fist', 'less:fist']);
-  grunt.registerTask('debug', ['jade:fist', 'concat:debug', 'less:debug']);
+  grunt.registerTask('dist', ['jade:dist', 'concat:dist', 'uglify:dist', 'less:dist']);
+  grunt.registerTask('debug', ['jade:dist', 'concat:debug', 'less:debug']);
 
 };

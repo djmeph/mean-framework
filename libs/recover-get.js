@@ -1,13 +1,13 @@
-if (process.env.NODE_ENV == 'dev') var config = require('../config.json'); else var config = {};
-
-const APP_NAME = process.env.NODE_ENV == 'dev' ? config.APP_NAME : process.env.APP_NAME;
-
 var User = require('../services/user');
 var Email = require('../services/email');
 
 module.exports = Module;
 
 function Module (req, res, next) {
+  const APP_NAME = req.app.get('APP_NAME');
+  const GMAIL_ADDRESS = req.app.get('GMAIL_ADDRESS');
+  const GMAIL_PASSWORD = req.app.get('GMAIL_PASSWORD');
+  const NOREPLY_EMAIL = req.app.get('NOREPLY_EMAIL');
 
   try {
 
@@ -21,7 +21,7 @@ function Module (req, res, next) {
       text += protocol + req.headers.host + '/dashboard/#!/reset-password/' + encodeURIComponent(result.email) + "/" + result.code;
       var subject = APP_NAME + ' - Password Recovery';
 
-      Email.send(text, result.email, subject).then(successSend, fail);
+      Email.send(text, result.email, subject, GMAIL_ADDRESS, GMAIL_PASSWORD, NOREPLY_EMAIL).then(successSend, fail);
 
       function successSend () {
         req.data = { status: 200, result: "Recovery email sent" };

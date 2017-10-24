@@ -4,11 +4,12 @@ const VERBOSE = process.env.NODE_ENV == 'verbose';
 if (DEV) var config = require('./config.json'); else var config = {};
 
 const PORT = DEV ? config.PORT : process.env.PORT;
+const NODE_ENV = DEV ? config.NODE_ENV : process.env.NODE_ENV;
 const MACHINE_NAME = DEV ? config.MACHINE_NAME : process.env.MACHINE_NAME;
 const MONGODB_URI = DEV ? config.MONGODB_URI : process.env.MONGODB_URI;
 const SECRET = DEV ? config.SECRET : process.env.SECRET;
 const COOKIE_DOMAIN = DEV ? config.COOKIE_DOMAIN : process.env.COOKIE_DOMAIN;
-const COOKIE_MAXAGE = normalizePort(DEV ? config.COOKIE_MAXAGE : process.env.COOKIE_MAXAGE);
+const COOKIE_MAXAGE = DEV ? config.COOKIE_MAXAGE : process.env.COOKIE_MAXAGE;
 const APP_NAME = DEV ? config.APP_NAME : process.env.APP_NAME;
 
 var express = require("express");
@@ -38,6 +39,15 @@ function go (db) {
   if (DEV || VERBOSE) console.log(inspect({"MongoDB connected on port": db.port }, inspectOpts));
 
   var app = express();
+
+  app.set('PORT', PORT);
+  app.set('NODE_ENV', NODE_ENV);
+  app.set('MACHINE_NAME', MACHINE_NAME);
+  app.set('MONGODB_URI', MONGODB_URI);
+  app.set('SECRET', SECRET);
+  app.set('COOKIE_DOMAIN', COOKIE_DOMAIN);
+  app.set('COOKIE_MAXAGE', normalize(COOKIE_MAXAGE));
+  app.set('APP_NAME', APP_NAME);
 
   if (DEV || VERBOSE) app.use(logger('dev'));
 
@@ -75,7 +85,7 @@ function go (db) {
 
   // HTTP setup
 
-  var port = normalizePort(PORT);
+  var port = normalize(PORT);
   var server = http.createServer(app);
   server.listen(port, listening);
   server.on('error', onError);
@@ -138,7 +148,7 @@ function fail (err) {
  * Normalize a port into a number, string, or false.
  */
 
-function normalizePort (val) {
+function normalize (val) {
   var port = parseInt(val, 10);
   if (isNaN(port)) return val;
   if (port >= 0) return port;

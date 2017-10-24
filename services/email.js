@@ -1,9 +1,3 @@
-if (process.env.NODE_ENV == 'dev') var config = require('../config.json'); else var config = {};
-
-const GMAIL_ADDRESS = process.env.NODE_ENV == 'dev' ? config.GMAIL_ADDRESS : process.env.GMAIL_ADDRESS;
-const GMAIL_PASSWORD = process.env.NODE_ENV == 'dev' ? config.GMAIL_PASSWORD : process.env.GMAIL_PASSWORD;
-const NOREPLY_EMAIL = process.env.NODE_ENV == 'dev' ? config.NOREPLY_EMAIL : process.env.NOREPLY_EMAIL;
-
 var Q = require('q');
 var nodemailer = require('nodemailer');
 var service = {};
@@ -12,7 +6,7 @@ service.send = send;
 
 module.exports = service;
 
-function send (text, email, subject) {
+function send (text, email, subject, GMAIL_ADDRESS, GMAIL_PASSWORD, NOREPLY_EMAIL) {
 
   var deferred = Q.defer();
 
@@ -38,10 +32,7 @@ function send (text, email, subject) {
       else deferred.resolve();
     });
 
-  } catch (err) {
-    if (process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "verbose") console.log(err);
-    deferred.reject(err.message);
-  }
+  } catch (err) { deferred.reject(err); }
 
   return deferred.promise;
 
