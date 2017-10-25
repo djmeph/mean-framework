@@ -15,33 +15,54 @@ var UserSchema = new mongoose.Schema({
   recover: { type: String, required: false, index: true },
 });
 
+const reasons = UserSchema.statics.failedLogin = {
+  NOT_FOUND: 0,
+  PASSWORD_INCORRECT: 1,
+  MAX_ATTEMPTS: 2
+};
 
+UserSchema.virtual('isLocked').get(isLocked);
+UserSchema.pre('save', preSave);
+UserSchema.methods.comparePassword = compare;
+UserSchema.methods.incLoginAttempts = incLoginAttempts;
+UserSchema.statics.getAuthenticated = getAuthenticated;
 
-UserSchema.virtual('isLocked').get(function () {
+module.exports = mongoose.model('User', UserSchema);
+
+//Public Functions
+function isLocked () {
   return !!(this.lockUntil && this.lockUntil > Date.now());
-});
+}
 
-UserSchema.pre('save', function (next) {
+function preSave (next) {
   var user = this;
   if (!user.isModified('password')) return next();
-  bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+  bcrypt.genSalt(SALT_WORK_FACTOR, genSalt);
+
+  function genSalt (err, salt) {
     if (err) return next(err);
-    bcrypt.hash(user.password, salt, null, function (err, hash) {
+    bcrypt.hash(user.password, salt, null, genHash);
+
+    function genHash (err, hash) {
       if (err) return next(err);
       user.password = hash;
       next();
-    });
-  });
-});
+    }
 
-UserSchema.methods.comparePassword = function (candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+  }
+
+}
+
+function compare (candidatePassword, cb) {
+  bcrypt.compare(candidatePassword, this.password, comparePassword);
+
+  function comparePassword (err, isMatch) {
     if (err) return cb(err);
     cb(null, isMatch);
-  });
-};
+  }
+}
 
-UserSchema.methods.incLoginAttempts = function (cb) {
+function incLoginAttempts (cb) {
   var MAX_LOGIN_ATTEMPTS = 10;
   var LOCK_TIME = 1 * 60 * 1000;
   if (this.lockUntil && this.lockUntil < Date.now()) {
@@ -55,33 +76,25 @@ UserSchema.methods.incLoginAttempts = function (cb) {
     updates.$set = { lockUntil: Date.now() + LOCK_TIME };
   }
   return this.update(updates, cb);
-};
+}
 
-var reasons = UserSchema.statics.failedLogin = {
-  NOT_FOUND: 0,
-  PASSWORD_INCORRECT: 1,
-  MAX_ATTEMPTS: 2
-};
-
-UserSchema.statics.getAuthenticated = function (username, password, cb) {
+function getAuthenticated (username, password, cb) {
   this.findOne({ $or:
     [
       { username: username },
       { email: username },
     ],
   })
-  .exec(function (err, user) {
+  .exec(getUserAndComparePassword);
+
+  function getUserAndComparePassword (err, user) {
     if (err) return cb(err);
-    if (!user) {
-      return cb(null, null, reasons.NOT_FOUND);
-    }
-    if (user.isLocked) {
-      return user.incLoginAttempts(function (err) {
-        if (err) return cb(err);
-        return cb(null, null, reasons.MAX_ATTEMPTS);
-      });
-    }
-    user.comparePassword(password, function (err, isMatch) {
+    if (!user) return cb(null, null, reasons.NOT_FOUND);
+    if (user.isLocked) return user.incLoginAttempts(returnLoginAttempts);
+
+    user.comparePassword(password, comparePassword);
+
+    function comparePassword (err, isMatch) {
       if (err) return cb(err);
       if (isMatch) {
         if (!user.loginAttempts && !user.lockUntil) return cb(null, user);
@@ -89,21 +102,24 @@ UserSchema.statics.getAuthenticated = function (username, password, cb) {
           $set: { loginAttempts: 0 },
           $unset: { lockUntil: 1 }
         };
-        return user.update(updates, function (err) {
-          if (err) return cb(err);
-          return cb(null, user);
-        });
+        return user.update(updates, returnUserOrError);
       }
-      user.incLoginAttempts(function (err) {
-        if (err) return cb(err);
-        return cb(null, null, reasons.PASSWORD_INCORRECT);
-      });
-    });
-  });
-};
 
-module.exports = mongoose.model('User', UserSchema);
+      user.incLoginAttempts(returnLoginAttempts);
 
+    }
+
+    function returnUserOrError (err) {
+      if (err) return cb(err);
+      return cb(null, user);
+    }
+
+    function returnLoginAttempts (err) {
+      if (err) return cb(err);
+      return cb(null, null, reasons.PASSWORD_INCORRECT);
+    }
+  }
+}
 
 // Private functions
 function normalize (val) {
@@ -112,3 +128,8 @@ function normalize (val) {
   if (payload >= 0) return payload;
   return false;
 }
+
+
+
+
+

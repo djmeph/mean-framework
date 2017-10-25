@@ -16,25 +16,16 @@ var userPut = require('../libs/user-put');
 
 
 /* General */
-
 router.get('/token', [bodyParser.json(), tokenGet], process);
-
 router.post('/auth', [bodyParser.json(), authPost], process);
-
 router.put('/password', [bodyParser.json(), passwordPut], process);
-
 router.get('/recover/:email', [bodyParser.json(), recoverGet], process);
-
 router.post('/reset', [bodyParser.json(), resetPost], process);
-
 router.delete('/token', deleteToken);
 
 /* User */
-
 router.post('/register', [bodyParser.json(), userPost], process);
-
 router.get('/user', [bodyParser.json(), userGet], process);
-
 router.put('/user', [bodyParser.json(), userPut], process);
 
 module.exports = router;
