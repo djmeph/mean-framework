@@ -22,7 +22,7 @@ module.exports = function(grunt) {
             built: new Date().getTime() }
         },
         files: {
-          'www/index.html': 'views.jade',
+          'www/index.html': 'views/index.jade',
         }
       }
     },
