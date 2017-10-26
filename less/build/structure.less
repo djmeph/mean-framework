@@ -11,13 +11,8 @@ main {
   left: 0;
   width: 100%;
   height: 100%;
-}
-
-#content {
-
-  overflow: hidden;
-  height: 100%;
-
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 
 .small-form, .large-form {
@@ -30,12 +25,6 @@ main {
 
 .large-form {
   max-width: 640px;
-}
-
-#container {
-  height: 100%;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
 }
 
 .outer-flexbox {
@@ -51,7 +40,7 @@ main {
   -webkit-overflow-scrolling: touch;
 }
 
-.url-fixed {
+.top-fixed {
   flex: 0 1 auto;
 }
 
@@ -66,19 +55,4 @@ main {
 }
 .padding-top {
   padding-top: 20px !important;
-}
-.padding-top-5 {
-  padding-top: 5px !important;
-}
-
-.fadein {
-  display: block;
-}
-
-.fadeout {
-  display: none;
-}
-
-.hideTable {
-  display: none;
 }
