@@ -1,15 +1,15 @@
 # mean-framework
 ### MEAN stack framework for building an app
 
-This is a basic MEAN stack framework to get started on building an app with basic signup, login, account settings and recovery.
+This is a basic MEAN stack framework to get started on building an app with signup, login, account settings and recovery.
 
-Basic requirements:
+**Requirements:**
 
 * Node.js
 * MongoDB
 * Grunt-cli
 
-Optional components:
+**Optional components:**
 
 * nodemon
 * pm2
