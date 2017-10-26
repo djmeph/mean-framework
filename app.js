@@ -4,7 +4,7 @@ const VERBOSE = process.env.NODE_ENV == 'verbose';
 if (DEV) var config = require('./config.json'); else var config = {};
 
 const PORT = DEV ? config.PORT : process.env.PORT;
-const NODE_ENV = DEV ? config.NODE_ENV : process.env.NODE_ENV;
+const NODE_ENV = process.env.NODE_ENV;
 const MACHINE_NAME = DEV ? config.MACHINE_NAME : process.env.MACHINE_NAME;
 const MONGODB_URI = DEV ? config.MONGODB_URI : process.env.MONGODB_URI;
 const SECRET = DEV ? config.SECRET : process.env.SECRET;
