@@ -14,6 +14,8 @@ This is a basic MEAN stack framework to get started on building an app with sign
 * nodemon
 * pm2
 
+Before you start, prepare your dependencies and compile grunt tasts with `npm install`.
+
 The repository is setup to provide two environments: development and production.
 
 ## Development Environment
@@ -36,7 +38,7 @@ For the development environment, you will need to create a file called `config.j
 }
 ```
 
-To run the app in development mode, set NODE_ENV environment variable to "dev."
+To run the app in development mode, set NODE_ENV environment variable to `dev`.
 
 Example:
 
@@ -62,7 +64,7 @@ export NOREPLY_EMAIL="noreply@example.com"
 export SALT_WORK_FACTOR="11"
 ```
 
-To get verbose console messages in production mode set NODE_ENV to "verbose."
+To get verbose console messages in production mode set NODE_ENV to `verbose`.
 
 ## File and Folder Structure
 
