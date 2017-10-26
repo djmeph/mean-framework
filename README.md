@@ -1,7 +1,7 @@
 # mean-framework
 MEAN stack framework for building an app
 
-This is a basic MEAN stack framework to get started on building an app with basic signup, login, account settings and recovery. 
+This is a basic MEAN stack framework to get started on building an app with basic signup, login, account settings and recovery.
 
 Basic requirements:
 
@@ -38,13 +38,13 @@ For the development environment, you will need to create a file called `config.j
 
 To run the app in development mode, set NODE_ENV environment variable to "dev."
 
-Example: 
+Example:
 
 `NODE_ENV=dev npm start`
 
 ** Production Environment **
 
-Instead of using config.json, use environment variables. 
+Instead of using config.json, use environment variables.
 
 Example:
 
@@ -64,3 +64,48 @@ export SALT_WORK_FACTOR="11"
 
 To get verbose console messages in production mode set NODE_ENV to "verbose."
 
+** File and Folder Structure **
+
+```
+.
+├── _src
+│   ├── controllers
+│   ├── directives
+│   └── services
+├── less
+│   └── build
+├── libs
+├── models
+├── routes
+├── services
+├── views
+└── www
+    └── views
+```
+src: Custom front-end javascript
+src/controllers: Angular Controllers
+src/directives: Angular Directives
+src/services: Angular Services
+src/filters: (No filters Included) Angular Filters
+less: Custom CSS structure
+less/build: LESS components for building CSS
+libs: Endpoint logic
+models: MongoDB Database Schema
+routes: Endpoint routes, middleware and handler references
+services: API services for endpoints
+views: JADE html templates
+www: Root web server folder
+www/views: Angular view templates
+
+** Grunt tasks **
+
+`grunt debug` Compiles javascript, CSS, and HTML in debugging mode.
+* jade: Compiles index.html for Angular app
+* concat: Concatenates javascript but doesn't minify
+* less: Generates CSS and map file for debugging stylesheet.
+
+`grunt dist` Compiles javascript, CSS, and HTML in production mode.
+* jade: Compiles index.html for Angular app
+* concat: Concatenates javascript
+* uglify: Minifies concatenated javascript
+* less: Generates minified CSS file
