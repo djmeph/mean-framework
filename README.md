@@ -1,5 +1,5 @@
 # mean-framework
-## MEAN stack framework for building an app
+### MEAN stack framework for building an app
 
 This is a basic MEAN stack framework to get started on building an app with basic signup, login, account settings and recovery.
 
@@ -16,7 +16,7 @@ Optional components:
 
 The repository is setup to provide two environments: development and production.
 
-### Development Environment
+## Development Environment
 
 For the development environment, you will need to create a file called `config.json` in the root folder. It should look like this:
 
@@ -42,7 +42,7 @@ Example:
 
 `NODE_ENV=dev npm start`
 
-### Production Environment
+## Production Environment
 
 Instead of using config.json, use environment variables.
 
@@ -64,7 +64,7 @@ export SALT_WORK_FACTOR="11"
 
 To get verbose console messages in production mode set NODE_ENV to "verbose."
 
-### File and Folder Structure
+## File and Folder Structure
 
 ```
 .
@@ -98,7 +98,7 @@ src: Custom front-end javascript
 * www: Root web server folder
 * www/views: Angular view templates
 
-### Grunt tasks
+## Grunt tasks
 
 `grunt debug` Compiles javascript, CSS, and HTML in debugging mode.
 * jade: Compiles index.html for Angular app
