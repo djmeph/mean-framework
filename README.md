@@ -84,8 +84,7 @@ To get verbose console messages in production mode set NODE_ENV to `verbose`.
 └── www
     └── views
 ```
-src: Custom front-end javascript
-
+* src: Custom front-end javascript
 * src/controllers: Angular Controllers
 * src/directives: Angular Directives
 * src/services: Angular Services
