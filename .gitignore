@@ -1,11 +1,8 @@
 node_modules/
 www/bower_components
 _src/build/
-package-lock.json
 config.json
-nodemon.json
 www/index.html
 www/app.min.js
 www/app.css
 www/app.css.map
-sessions/
