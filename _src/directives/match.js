@@ -17,7 +17,6 @@
     return directive;
 
     function link (scope, elem, attrs, ctrl) {
-      // if ngModel is not defined, we don't need to do anything
       if (!ctrl) return;
       if (!attrs[directiveId]) return;
 
