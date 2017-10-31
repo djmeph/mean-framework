@@ -1,8 +1,6 @@
 node_modules/
 bower_components/
-_src/build/
 config.json
 www/index.html
-www/app.min.js
+www/app.js
 www/app.css
-www/app.css.map
