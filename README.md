@@ -7,14 +7,15 @@ This is a basic MEAN stack framework to get started on building an app with sign
 
 * Node.js
 * MongoDB
-* Grunt-cli
+* Yarn
+* grunt-cli
 
 **Optional components:**
 
 * nodemon
 * pm2
 
-Before you start, prepare your dependencies and compile grunt tasts with `npm install`.
+Before you start, prepare your dependencies and compile grunt tasks with `yarn install`.
 
 The repository is setup to provide two environments: development and production.
 
@@ -62,6 +63,7 @@ export GMAIL_ADDRESS="example@gmail.com"
 export GMAIL_PASSWORD="gmail-password"
 export NOREPLY_EMAIL="noreply@example.com"
 export SALT_WORK_FACTOR="11"
+npm start
 ```
 
 To get verbose console messages in production mode set NODE_ENV to `verbose`.
@@ -102,12 +104,12 @@ To get verbose console messages in production mode set NODE_ENV to `verbose`.
 ## Grunt tasks
 
 `grunt debug` Compiles javascript, CSS, and HTML in debugging mode.
-* jade: Compiles index.html for Angular app
+* pug: Compiles index.html for Angular app
 * concat: Concatenates javascript but doesn't minify
 * less: Generates CSS and map file for debugging stylesheet.
 
 `grunt dist` Compiles javascript, CSS, and HTML in production mode.
-* jade: Compiles index.html for Angular app
+* pug: Compiles index.html for Angular app
 * concat: Concatenates javascript
 * uglify: Minifies concatenated javascript
 * less: Generates minified CSS file

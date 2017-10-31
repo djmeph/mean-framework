@@ -14,7 +14,7 @@ module.exports = function(grunt) {
 
     pkg: grunt.file.readJSON('package.json'),
 
-    jade: {
+    pug: {
       dist: {
         options: {
           data: {
@@ -22,7 +22,7 @@ module.exports = function(grunt) {
             built: new Date().getTime() }
         },
         files: {
-          'www/index.html': 'views/index.jade',
+          'www/index.html': 'views/index.pug',
         }
       }
     },
@@ -75,12 +75,12 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.loadNpmTasks('grunt-contrib-jade');
+  grunt.loadNpmTasks('grunt-contrib-pug');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-less');
 
-  grunt.registerTask('dist', ['jade:dist', 'concat:dist', 'uglify:dist', 'less:dist']);
-  grunt.registerTask('debug', ['jade:dist', 'concat:debug', 'less:debug']);
+  grunt.registerTask('dist', ['pug:dist', 'concat:dist', 'uglify:dist', 'less:dist']);
+  grunt.registerTask('debug', ['pug:dist', 'concat:debug', 'less:debug']);
 
 };
