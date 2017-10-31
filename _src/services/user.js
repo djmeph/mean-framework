@@ -9,10 +9,6 @@
 
     var service = {};
 
-    service.user = {};
-    service.setUser = setUser;
-    service.setUsername = setUsername;
-
     service.Create = Create;
     service.GetCurrent = GetCurrent;
     service.Authenticate = Authenticate;
@@ -23,14 +19,6 @@
     service.Reset = Reset;
 
     return service;
-
-    function setUser (user) {
-      service.user = user;
-    }
-
-    function setUsername (username) {
-      service.user.display = username;
-    }
 
     function Create (data) {
       return $http.post('/api/register', data).then(successAuthCheck, handleError);
@@ -76,12 +64,12 @@
     }
 
     function successUser (res) {
-      setUser(res.data);
+      $rootScope.user = res.data;
       return res.data;
     }
 
     function successAuthCheck (res) {
-      setUser(res.data.user);
+      $rootScope.user = res.data.user;
       $http.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
       return res.data;
     }

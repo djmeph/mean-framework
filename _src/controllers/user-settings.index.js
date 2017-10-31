@@ -5,7 +5,7 @@
   .module('app')
   .controller('UserSettings.IndexController', Controller);
 
-  function Controller($state, User) {
+  function Controller($state, $rootScope, User) {
     var vm = this;
 
     vm.username = null;
@@ -29,7 +29,7 @@
 
       function successSave (result) {
         vm.flash = { success: { msg: "Saved @" + moment().format('hh:mm:ss a') } };
-        User.setUsername(vm.username);
+        $rootScope.user.display = vm.username;
       }
 
       function failSave (err) {

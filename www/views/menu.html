@@ -1,19 +1,19 @@
 <ul class="nav navbar-nav pull-right" ng-controller="MenuController as menu">
 
-  <li ng-show="menu.user._id" ng-class="{ active: activeTab == 'user-settings' }">
+  <li ng-show="user._id" ng-class="{ active: activeTab == 'user-settings' }">
     <a href="#!/user-settings">
       <span class="glyphicon glyphicon-user"></span>
-      {{ menu.user.display }}
+      {{ user.display }}
     </a>
   </li>
 
-  <li ng-show="menu.user._id"><a href ng-click="menu.logout()">Log out</a></li>
+  <li ng-show="user._id"><a href ng-click="menu.logout()">Log out</a></li>
 
-  <li ng-hide="menu.user._id" ng-class="{ active: activeTab == 'login' }">
+  <li ng-hide="user._id" ng-class="{ active: activeTab == 'login' }">
     <a href="#!/login">Login</a>
   </li>
 
-  <li ng-hide="menu.user._id" ng-class="{ active: activeTab == 'signup' }">
+  <li ng-hide="user._id" ng-class="{ active: activeTab == 'signup' }">
     <a href="#!/signup">Sign up</a>
   </li>
 
