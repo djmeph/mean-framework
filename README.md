@@ -8,14 +8,14 @@ This is a basic MEAN stack framework to get started on building an app with sign
 * Node.js
 * MongoDB
 * Yarn
-* grunt-cli
+* Gulp
 
 **Optional components:**
 
 * nodemon
 * pm2
 
-Before you start, prepare your dependencies and compile grunt tasks with `yarn install`.
+Before you start, prepare your dependencies and compile Gulp tasks with `yarn install`.
 
 The repository is setup to provide two environments: development and production.
 
@@ -52,6 +52,7 @@ Instead of using config.json, use environment variables.
 Example:
 
 ```
+#!/bin/bash
 export MONGODB_URI="mongodb://localhost:27017/mean-framework"
 export PORT="80"
 export MACHINE_NAME="mean-framework"
@@ -75,7 +76,8 @@ To get verbose console messages in production mode set NODE_ENV to `verbose`.
 ├── _src
 │   ├── controllers
 │   ├── directives
-│   └── services
+│   ├── services
+│   └── filters
 ├── less
 │   └── build
 ├── libs
@@ -96,20 +98,19 @@ To get verbose console messages in production mode set NODE_ENV to `verbose`.
 * libs: Endpoint logic
 * models: MongoDB Database Schema
 * routes: Endpoint routes, middleware and handler references
-* services: API services for endpoints
-* views: JADE html templates
+* services: Services with promises for endpoints
+* views: Pug html templates
 * www: Root web server folder
 * www/views: Angular view templates
 
-## Grunt tasks
+## Gulp tasks
 
-`grunt debug` Compiles javascript, CSS, and HTML in debugging mode.
+`gulp` Compiles javascript, CSS, and HTML in debugging mode.
 * pug: Compiles index.html for Angular app
-* concat: Concatenates javascript but doesn't minify
-* less: Generates CSS and map file for debugging stylesheet.
+* js: Concatenates javascript with mappings but doesn't minify
+* less: Generates CSS and mappings for debugging stylesheet.
 
-`grunt dist` Compiles javascript, CSS, and HTML in production mode.
+`gulp --type production` Compiles javascript, CSS, and HTML in production mode.
 * pug: Compiles index.html for Angular app
-* concat: Concatenates javascript
-* uglify: Minifies concatenated javascript
-* less: Generates minified CSS file
+* js: Concatenates and minifies javascript files with mappings
+* less: Generates minified CSS file with mappings
