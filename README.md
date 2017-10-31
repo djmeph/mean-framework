@@ -86,6 +86,7 @@ To get verbose console messages in production mode set NODE_ENV to `verbose`.
 ├── services
 ├── views
 └── www
+    ├── components
     └── views
 ```
 * src: Custom front-end javascript
@@ -101,6 +102,7 @@ To get verbose console messages in production mode set NODE_ENV to `verbose`.
 * services: Services with promises for endpoints
 * views: Pug html templates
 * www: Root web server folder
+* www/components: Symlinks to front-end dependencies
 * www/views: Angular view templates
 
 ## Gulp tasks
