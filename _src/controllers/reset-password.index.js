@@ -8,6 +8,8 @@
   function Controller($state, $stateParams, User) {
     var vm = this;
 
+    // Controller variables
+
     vm.flash = {};
     vm.password = null;
     vm.verify = null;
@@ -15,6 +17,8 @@
     vm.code = $stateParams.code;
 
     vm.reset = reset;
+
+    // Controller functions
 
     function reset () {
 
@@ -25,14 +29,16 @@
       vm.password = null;
       vm.verify = null;
 
-      function success () {
-        $state.go('login');
-      }
+    }
 
-      function fail (err) {
-        vm.flash = { error: { msg: err.message } };
-      }
+    // Private Functions
 
+    function success () {
+      $state.go('login');
+    }
+
+    function fail (err) {
+      vm.flash = { error: { msg: err.message } };
     }
 
   }

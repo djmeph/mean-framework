@@ -8,6 +8,8 @@
   function Controller($window, $http, $state, User) {
     var vm = this;
 
+    // Controller variables
+
     vm.username = null;
     vm.email = null;
     vm.password = null;
@@ -17,20 +19,24 @@
 
     vm.save = save;
 
+    // Controller functions
+
     function save () {
       User.Create({
         username: vm.username,
         email: vm.email,
         password: vm.password
       }).then(success, fail);
+    }
 
-      function success (res) {
-        $state.go('home');
-      }
+    // Private Functions
 
-      function fail (err) {
-        vm.flash = { error: { msg: err.message } };
-      }
+    function success (res) {
+      $state.go('home');
+    }
+
+    function fail (err) {
+      vm.flash = { error: { msg: err.message } };
     }
 
   }

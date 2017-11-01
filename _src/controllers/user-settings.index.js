@@ -8,6 +8,8 @@
   function Controller($state, $rootScope, User) {
     var vm = this;
 
+    // Controller variables
+
     vm.username = null;
     vm.email = null;
     vm.flash = {};
@@ -41,7 +43,7 @@
       }
     }
 
-    // Private Function
+    // Private Functions
 
     function successAuth (result) {
       User.GetCurrent().then(successUser, fail);

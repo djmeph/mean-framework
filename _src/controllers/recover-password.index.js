@@ -8,29 +8,28 @@
   function Controller(User) {
     var vm = this;
 
+    // Controller variables
+
     vm.flash = {};
     vm.email = null;
 
     vm.getRecover = getRecover;
 
+    // Controller functions
+
     function getRecover () {
-
       User.GetRecover(vm.email).then(success, fail);
-
       vm.email = null;
+    }
 
-      function success () {
+    // Private Functions
 
-        vm.flash = { success: { msg: "Recovery email sent" } };
+    function success () {
+      vm.flash = { success: { msg: "Recovery email sent" } };
+    }
 
-      }
-
-      function fail (err) {
-
-        vm.flash = { error: { msg: err.message } };
-
-      }
-
+    function fail (err) {
+      vm.flash = { error: { msg: err.message } };
     }
 
   }

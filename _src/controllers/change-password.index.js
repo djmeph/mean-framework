@@ -8,6 +8,8 @@
   function Controller($state, User) {
     var vm = this;
 
+    // Controller variables
+
     vm.password = null;
     vm.new = null;
     vm.verify = null;
@@ -15,11 +17,15 @@
 
     vm.save = save;
 
+    // Initialize Controller
+
     initController();
 
     function initController () {
       User.CheckAuth().then(successAuth, failAuth);
     }
+
+    // Controller functions
 
     function save () {
       User.ChangePassword(vm.password, vm.new).then(successPassword, failPassword);
@@ -38,6 +44,8 @@
         vm.flash = { error: { msg: err.message } };
       }
     }
+
+    // Private Functions
 
     function successAuth (result) {}
 

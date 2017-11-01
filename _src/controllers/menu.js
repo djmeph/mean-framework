@@ -8,8 +8,12 @@
   function Controller ($scope, $rootScope, $state, $http, $localStorage, User) {
     var menu = this;
 
+    // Controller variables
+
     menu.expandHamburger = expandHamburger;
     menu.logout = logout;
+
+    // Controller functions
 
     function expandHamburger () {
       $rootScope.hamburger = $rootScope.hamburger ? false : true;
