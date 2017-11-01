@@ -5,13 +5,14 @@
   .module('app')
   .factory('User', Service);
 
-  function Service ($http, $q, $rootScope, $location) {
+  function Service ($http, $q, $rootScope, $location, $localStorage, $state) {
 
     var service = {};
 
     service.Create = Create;
     service.GetCurrent = GetCurrent;
     service.Authenticate = Authenticate;
+    service.CheckAuth = CheckAuth;
     service.Logout = Logout;
     service.Put = Put;
     service.ChangePassword = ChangePassword;
@@ -31,6 +32,10 @@
 
     function Authenticate (credentials) {
       return $http.post('/api/auth', credentials).then(successAuthCheck, handleError);
+    }
+
+    function CheckAuth () {
+      return $http.get('/api/token?' + $.param({ _: moment().unix() })).then(successAuthCheck, handleError);
     }
 
     function Logout () {
@@ -69,9 +74,24 @@
     }
 
     function successAuthCheck (res) {
-      $rootScope.user = res.data.user;
       $http.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
+      if (res.data.user) $rootScope.user = res.data.user;
+      else if (!$rootScope.user) GetCurrentNoPromise();
       return res.data;
+    }
+
+    function GetCurrentNoPromise () {
+      $http.get('/api/user?' + $.param({ _: moment().unix() })).then(success, fail);
+
+      function success (res) {
+        $rootScope.user = res.data;
+      }
+
+      function fail (res) {
+        delete $http.defaults.headers.common['Authorization'];
+        delete $localStorage.token;
+        $state.go('login');
+      }
     }
 
   }

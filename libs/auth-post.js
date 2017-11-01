@@ -3,11 +3,10 @@ var User = require('../services/user');
 module.exports = Module;
 
 function Module (req, res, next) {
-  const SECRET = req.app.get('SECRET');
 
   try {
 
-    User.auth(req.body.username, req.body.password, SECRET).then(success, fail);
+    User.auth(req.body.username, req.body.password, req.body.remember).then(success, fail);
 
     function success (result) {
       req.session.token = result.token;

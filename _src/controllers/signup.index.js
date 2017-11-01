@@ -11,7 +11,7 @@
     vm.username = null;
     vm.email = null;
     vm.password = null;
-    vm.verify = false;
+    vm.verify = null;
     vm.flash = {};
     vm.regex = /^[a-zA-Z0-9_]+$/;
 

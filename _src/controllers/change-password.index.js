@@ -18,7 +18,7 @@
     initController();
 
     function initController () {
-      User.GetCurrent().then(successAuth, failAuth);
+      User.CheckAuth().then(successAuth, failAuth);
     }
 
     function save () {

@@ -14,10 +14,10 @@
 
     function initController () {
 
-      User.GetCurrent().then(successAuth, failAuth);
+      User.CheckAuth().then(successAuth, failAuth);
 
       function successAuth (result) {
-        vm.message = 'Hello ' + result.display + '!';
+        vm.message = 'Hello World!';
       }
 
       function failAuth (err) {

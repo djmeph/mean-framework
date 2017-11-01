@@ -19,6 +19,8 @@ gulp.task('pug', function buildHTML() {
   .pipe(gulp.dest('www'));
 });
 
+if (gutil.env.type !== 'production') gulp.watch('views/*.pug', ['pug']);
+
 gulp.task('js', function() {
   return gulp.src('_src/**/*.js')
     .pipe(sourcemaps.init())
@@ -28,6 +30,8 @@ gulp.task('js', function() {
     .pipe(gulp.dest('www'));
 });
 
+if (gutil.env.type !== 'production') gulp.watch('_src/**/*.js', ['js']);
+
 gulp.task('less', function () {
   return gulp.src('less/app.less')
     .pipe(sourcemaps.init())
@@ -35,5 +39,7 @@ gulp.task('less', function () {
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('www'));
 });
+
+if (gutil.env.type !== 'production') gulp.watch('less/**/*.less', ['less']);
 
 gulp.task('default', ['pug', 'js', 'less']);

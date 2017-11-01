@@ -3,8 +3,6 @@ var User = require('../services/user');
 module.exports = Module;
 
 function Module (req, res, next) {
-  const SECRET = req.app.get('SECRET');
-  const SALT_WORK_FACTOR = req.app.get('SALT_WORK_FACTOR');
 
   try {
 
@@ -12,7 +10,7 @@ function Module (req, res, next) {
 
     function successUser (user) {
 
-      User.auth(user.username, req.body.old, SECRET).then(authenticated, fail);
+      User.auth(user.username, req.body.old).then(authenticated, fail);
 
       function authenticated () {
 

@@ -1,8 +1,15 @@
-var User = require('../models/user');
+if (process.env.NODE_ENV == 'dev') var config = require('../config.json'); else var config = {};
+
+const SECRET = process.env.NODE_ENV == 'dev' ? config.SECRET : process.env.SECRET;
+const SALT_WORK_FACTOR = normalize(process.env.NODE_ENV == 'dev' ? config.SALT_WORK_FACTOR : process.env.SALT_WORK_FACTOR);
+const EXPIRY = 86400;
+
 var Q = require('q');
 var moment = require('moment');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcrypt-nodejs');
+var User = require('../models/user');
+
 var service = {};
 
 service.post = post;
@@ -15,7 +22,7 @@ service.reset = reset;
 
 module.exports = service;
 
-function post (data, SECRET) {
+function post (data) {
 
   var deferred = Q.defer();
 
@@ -46,11 +53,12 @@ function post (data, SECRET) {
       var payload = data;
       payload.display = data.username;
       payload.username = data.username.toLowerCase();
+      payload.email = data.email.toLowerCase();
 
       var newUser = new User(payload);
       newUser.save(function (err, doc) {
         if (err) deferred.reject(err);
-        else deferred.resolve({ token: jwt.sign({ _id: doc._id }, SECRET), user: doc.toObject() });
+        else deferred.resolve({ token: jwt.sign({ _id: doc._id }, SECRET, { expiresIn: EXPIRY }), user: doc.toObject() });
       });
 
     }
@@ -84,7 +92,7 @@ function getByID (_id) {
 
 }
 
-function auth (username, password, SECRET) {
+function auth (username, password, remember) {
 
   var deferred = Q.defer();
 
@@ -93,7 +101,8 @@ function auth (username, password, SECRET) {
     User
     .getAuthenticated(username.toLowerCase(), password, function (err, user, reason) {
       if (err) deferred.reject(err);
-      else if (user) deferred.resolve({ token: jwt.sign({ _id: user._id }, SECRET), user: user.toObject() });
+      else if (user && remember) deferred.resolve({ token: jwt.sign({ _id: user._id }, SECRET), user: user.toObject() });
+      else if (user) deferred.resolve({ token: jwt.sign({ _id: user._id }, SECRET, { expiresIn: EXPIRY }), user: user.toObject() });
       else deferred.reject({ message: "User not found" });
     });
 
@@ -128,7 +137,7 @@ function put (_id, data) {
 
 }
 
-function setPassword (_id, password, SALT_WORK_FACTOR) {
+function setPassword (_id, password) {
 
   var deferred = Q.defer();
 
@@ -180,28 +189,35 @@ function getRecover (email) {
 
 }
 
-function reset (email, code, password, SALT_WORK_FACTOR) {
+function reset (email, code, password) {
 
     var deferred = Q.defer();
 
     try {
 
         bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
-            bcrypt.hash(password, salt, null, function (err, hash) {
-                User.findOneAndUpdate(
-                    { email: email, recover: code },
-                    { $set: { password: hash } },
-                    function (err, doc) {
-                        if (err) deferred.reject(err);
-                        else if (doc === null) deferred.reject({ message: 'Invalid credentials' });
-                        else deferred.resolve();
-                    }
-                );
-            });
+          bcrypt.hash(password, salt, null, function (err, hash) {
+            User.findOneAndUpdate(
+              { email: email, recover: code },
+              { $set: { password: hash } },
+              function (err, doc) {
+                if (err) deferred.reject(err);
+                else if (doc === null) deferred.reject({ message: 'Invalid credentials' });
+                else deferred.resolve();
+              }
+            );
+          });
         });
 
     } catch (err) { deferred.reject(err); }
 
     return deferred.promise;
 
+}
+
+function normalize (val) {
+  var port = parseInt(val, 10);
+  if (isNaN(port)) return val;
+  if (port >= 0) return port;
+  return false;
 }

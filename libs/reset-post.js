@@ -3,7 +3,6 @@ var User = require('../services/user');
 module.exports = Module;
 
 function Module (req, res, next) {
-  const SALT_WORK_FACTOR = req.app.get('SALT_WORK_FACTOR');
 
   try {
 

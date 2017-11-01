@@ -57,9 +57,9 @@
 
   }
 
-  function run ($http, $rootScope, $window, $transitions) {
+  function run ($http, $rootScope, $transitions, $localStorage) {
 
-    if ($window.jwtToken) $http.defaults.headers.common['Authorization'] = 'Bearer ' + $window.jwtToken;
+    if ($localStorage.token) $http.defaults.headers.common['Authorization'] = 'Bearer ' + $localStorage.token;
 
     $transitions.onStart({}, function (transition) {
       $rootScope.hamburger = false;
@@ -74,29 +74,7 @@
 
   $(function () {
 
-    if (window.localStorage.getItem('ngStorage-token')) {
-
-      window.jwtToken = JSON.parse(window.localStorage.getItem('ngStorage-token'));
-
-      $.ajaxSetup({ headers: { 'x-access-token': window.jwtToken } });
-
-    }
-
-    $.get('/api/token').then(success, fail);
-
-    function success (token) {
-
-      window.jwtToken = token;
-
-      angular.bootstrap(document, ['app']);
-
-    }
-
-    function fail () {
-
-      angular.bootstrap(document, ['app']);
-
-    }
+    angular.bootstrap(document, ['app']);
 
   });
 

@@ -15,11 +15,15 @@
 
     vm.save = save;
 
+    // Initialize Controller
+
     initController();
 
     function initController () {
-      User.GetCurrent().then(successAuth, failAuth);
+      User.CheckAuth().then(successAuth, fail);
     }
+
+    // Controller functions
 
     function save () {
       User.Put({
@@ -37,12 +41,18 @@
       }
     }
 
+    // Private Function
+
     function successAuth (result) {
-      vm.username = result.display;
-      vm.email = result.email;
+      User.GetCurrent().then(successUser, fail);
+
+      function successUser (result) {
+        vm.username = result.display;
+        vm.email = result.email;
+      }
     }
 
-    function failAuth (err) {
+    function fail (err) {
       $state.go('login');
     }
 

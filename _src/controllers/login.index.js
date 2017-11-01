@@ -18,7 +18,7 @@
 
     function checkLogin () {
 
-      User.Authenticate({ username: vm.username, password: vm.password }).then(success, fail);
+      User.Authenticate({ username: vm.username, password: vm.password, remember: vm.remember }).then(success, fail);
 
       function success (res) {
         vm.flash = {};

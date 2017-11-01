@@ -14,6 +14,7 @@ const APP_NAME = DEV ? config.APP_NAME : process.env.APP_NAME;
 const GMAIL_ADDRESS = DEV ? config.GMAIL_ADDRESS : process.env.GMAIL_ADDRESS;
 const GMAIL_PASSWORD = DEV ? config.GMAIL_PASSWORD : process.env.GMAIL_PASSWORD;
 const NOREPLY_EMAIL = DEV ? config.NOREPLY_EMAIL : process.env.NOREPLY_EMAIL;
+const SALT_WORK_FACTOR = DEV ? config.SALT_WORK_FACTOR : process.env.SALT_WORK_FACTOR;
 
 var express = require("express");
 var http = require('http');
@@ -54,6 +55,7 @@ function go (db) {
   app.set('GMAIL_ADDRESS', GMAIL_ADDRESS);
   app.set('GMAIL_PASSWORD', GMAIL_PASSWORD);
   app.set('NOREPLY_EMAIL', NOREPLY_EMAIL);
+  app.set('SALT_WORK_FACTOR', NOREPLY_EMAIL);
 
   if (DEV || VERBOSE) app.use(logger('dev'));
 

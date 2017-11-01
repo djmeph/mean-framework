@@ -26,11 +26,11 @@
       <label>Verify password<span ng-hide="formSignup.verify.$valid">: Enter your password a second time.</span>&nbsp;<span ng-show="formSignup.verify.$valid" class="glyphicon glyphicon-ok green"></span></label>
       <input ng-model="vm.verify" name="verify" type="password" class="form-control margin-bottom" ng-match="vm.password" required>
 
-      <button type="submit" class="btn btn-lg btn-primary btn-block" ng-disabled="!formSignup.$valid">Sign up</button>
+      <flash></flash>
+
+      <button type="submit" class="btn btn-lg btn-primary btn-block padding-top" ng-disabled="!formSignup.$valid">Sign up</button>
 
     </form>
-
-    <flash></flash>
 
   </div>
 </div>

@@ -3,11 +3,10 @@ var User = require('../services/user');
 module.exports = Module;
 
 function Module (req, res, next) {
-  const SECRET = req.app.get('SECRET');
 
   try {
 
-    User.post(req.body, SECRET).then(success, fail);
+    User.post(req.body).then(success, fail);
 
     function success (result) {
       req.session.token = result.token;

@@ -1,22 +1,22 @@
+var parse = require('parse-bearer-token');
+
 module.exports = Module;
 
 function Module (req, res, next) {
 
   try {
 
-    var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'];
+    var token = parse(req);
 
     if (token) {
       req.session.token = token;
-      req.data = { status: 200, result: req.session.token };
-      return next();
+      req.data = { status: 200, result: { token: req.session.token } };
     } else if (req.session.token) {
-      req.data = { status: 200, result: req.session.token };
-      return next();
+      req.data = { status: 200, result: { token: req.session.token } };
     } else {
-      req.data = { status: 500, result: "Invalid token" };
-      return next();
+      req.data = { status: 500, result: { message: "Invalid token" } };
     }
+    return next();
 
   } catch (err) { fail(err); }
 
